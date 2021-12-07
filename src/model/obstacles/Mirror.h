@@ -20,7 +20,7 @@ namespace lightpuzzle
          * @param input 
          * @return Direction 
          */
-        Direction redirect(Direction input);
+        Eigen::Vector2d  redirect(Direction input);
 
     };
 }
