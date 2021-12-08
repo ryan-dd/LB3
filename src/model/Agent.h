@@ -1,9 +1,9 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef AGENT_H
+#define AGENT_H
 
 #include <utility>
 
-class Player
+class Agent
 {
 private:
     std::pair<int, int> xy{1, 1};
@@ -11,8 +11,8 @@ private:
     int maxY;
     
 public:
-    Player(int maxX, int maxY);
-    Player();
+    Agent(int maxX, int maxY, int startX, int startY);
+    Agent();
     const std::pair<int, int>& getXY();
     void requestUp();
     void requestDown();

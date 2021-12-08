@@ -1,43 +1,44 @@
-#include "Player.h"
+#include "Agent.h"
 #include <algorithm>
 
-Player::Player(int maxX, int maxY):
+Agent::Agent(int maxX, int maxY, int startX, int startY):
     maxX(maxX),
     maxY(maxY)
 {
+    xy = {startX, startY};
 }
 
-Player::Player()
+Agent::Agent()
 {
 }
 
-const std::pair<int, int>& Player::getXY()
+const std::pair<int, int>& Agent::getXY()
 {
     return xy;
 }
 
-void Player::requestUp()
+void Agent::requestUp()
 {
     if(--xy.second < 2)
     {
         xy.second = 1;
     }
 }
-void Player::requestDown()
+void Agent::requestDown()
 {
     if(++xy.second > maxY - 2)
     {
         xy.second = maxY - 2;
     }
 }
-void Player::requestLeft()
+void Agent::requestLeft()
 {
     if(--xy.first < 2)
     {
         xy.first = 1;
     }
 }
-void Player::requestRight()
+void Agent::requestRight()
 {
     if(++xy.first > maxX - 2)
     {

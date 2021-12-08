@@ -4,20 +4,24 @@
 
 #include <ncurses.h>
 #include <string>
-#include "Player.h"
-
+#include "Agent.h"
 class GameSession
 {
 private:
     WINDOW* mWindow;
-    Player player;
+    Agent player;
+    Agent player2;
+    Agent lazer;
 public:
     GameSession(int height, int width);
     ~GameSession();
     void waitForUserInput();
     void printToSession(const std::string& input);
     void clear();
-    void controlPlayer();
+    void start();
+    
+    void updateState();
+    void redraw();
 };
 
 
