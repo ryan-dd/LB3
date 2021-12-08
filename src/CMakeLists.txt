@@ -2,6 +2,7 @@ add_library(LightPuzzle
     model/Arena.cpp 
     model/obstacles/Mirror.cpp 
     model/Direction.cpp 
+    model/Player.cpp 
     view/GameSession.cpp 
 )
 

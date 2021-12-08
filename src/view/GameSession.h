@@ -4,16 +4,20 @@
 
 #include <ncurses.h>
 #include <string>
+#include "Player.h"
 
 class GameSession
 {
 private:
     WINDOW* mWindow;
+    Player player;
 public:
     GameSession(int height, int width);
     ~GameSession();
     void waitForUserInput();
     void printToSession(const std::string& input);
+    void clear();
+    void controlPlayer();
 };
 
 
