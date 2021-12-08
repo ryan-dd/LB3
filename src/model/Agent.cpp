@@ -38,6 +38,7 @@ void Agent::requestLeft()
         xy.first = 1;
     }
 }
+
 void Agent::requestRight()
 {
     if(++xy.first > maxX - 2)

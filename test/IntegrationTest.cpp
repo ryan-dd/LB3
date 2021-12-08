@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
 TEST (Integration, FirstTest) {
-    bool test = true;
-    ASSERT_TRUE(test);
+    // bool test = true;
+    // ASSERT_TRUE(test);
 }

@@ -9,9 +9,25 @@ class GameSession
 {
 private:
     WINDOW* mWindow;
-    Agent player;
+    Agent player1;
     Agent player2;
     Agent lazer;
+
+    struct PlayerInfo
+    {
+        char up = (char)KEY_UP;
+        char down = (char)KEY_DOWN;
+        char left = (char)KEY_LEFT;
+        char right = (char)KEY_RIGHT;
+        char representation = '@';
+    };
+
+    PlayerInfo playerOneInfo;
+    PlayerInfo playerTwoInfo;
+
+    void initPlayerInfo();
+    void updatePlayer(char input, Agent& player, PlayerInfo playerInfo);
+
 public:
     GameSession(int height, int width);
     ~GameSession();

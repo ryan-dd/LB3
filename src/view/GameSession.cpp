@@ -14,15 +14,48 @@ GameSession::GameSession(int height, int width)
     int maxX;
 
     getmaxyx(mWindow, maxY, maxX);
-    player = Agent(maxX, maxY, 2, 2);
+    player1 = Agent(maxX, maxY, 1, 1);
     player2 = Agent(maxX, maxY, maxX-2, maxY-2);
-    lazer = Agent(maxX, maxY, 3, 3);
-    lazer.requestRight();
+    initPlayerInfo();
 }
 
 GameSession::~GameSession()
 {
     endwin();
+}
+
+void GameSession::initPlayerInfo()
+{
+    playerTwoInfo.up = 'w';
+    playerTwoInfo.down = 's';
+    playerTwoInfo.left = 'a';
+    playerTwoInfo.right = 'd';
+    playerTwoInfo.representation = '&';
+}
+
+void GameSession::updatePlayer(char input, Agent& player, PlayerInfo playerInfo)
+{
+    auto& [x, y] = player.getXY();
+    mvwaddch(mWindow, y, x, ' ');
+
+    if(input == playerInfo.up)
+    {
+        player.requestUp();
+    } 
+    else if(input == playerInfo.down)
+    {
+        player.requestDown();
+    }
+    else if(input == playerInfo.left)
+    {
+        player.requestLeft();
+    }
+    else if(input == playerInfo.right)
+    {
+        player.requestRight();
+    }
+    
+    mvwaddch(mWindow, y, x, playerInfo.representation);
 }
 
 void GameSession::waitForUserInput()
@@ -52,67 +85,23 @@ void GameSession::clear()
 
 void GameSession::start()
 {   
-    auto& xy = player.getXY();
-    mvwaddch(mWindow, xy.second, xy.first, '@');
+    auto& [x1, y1] = player1.getXY();
+    mvwaddch(mWindow, y1, x1, playerOneInfo.representation);
 
-    auto& xy2 = player2.getXY();
-    mvwaddch(mWindow, xy2.second, xy2.first, '&');
+    auto& [x2, y2] = player2.getXY();
+    mvwaddch(mWindow, y2, x2, playerTwoInfo.representation);
     
-    auto& [x, y] = lazer.getXY();
-    mvwaddch(mWindow, y, x, '-');
-
     auto tick = std::chrono::milliseconds(7);
     auto nextTick = std::chrono::steady_clock::now() + tick;
-    timeout(1);
     nodelay(mWindow, true);
 
     while(true)
     {
-        int choice = wgetch(mWindow);
-        switch (choice)
+        char choice = wgetch(mWindow);
+        updatePlayer(choice, player1, playerOneInfo);
+        updatePlayer(choice, player2, playerTwoInfo);
+        if(choice == 'q')
         {
-        case KEY_UP:
-            mvwaddch(mWindow, xy.second, xy.first, ' ');
-            player.requestUp();
-            mvwaddch(mWindow, xy.second, xy.first, '@');
-            break;
-        case KEY_DOWN:
-            mvwaddch(mWindow, xy.second, xy.first, ' ');
-            player.requestDown();
-            mvwaddch(mWindow, xy.second, xy.first, '@');
-            break;
-        case KEY_LEFT:
-            mvwaddch(mWindow, xy.second, xy.first, ' ');
-            player.requestLeft();
-            mvwaddch(mWindow, xy.second, xy.first, '@');
-            break;
-        case KEY_RIGHT:
-            mvwaddch(mWindow, xy.second, xy.first, ' ');
-            player.requestRight();
-            mvwaddch(mWindow, xy.second, xy.first, '@');
-            break;
-        case 'w':
-            mvwaddch(mWindow, xy2.second, xy2.first, ' ');
-            player2.requestUp();
-            mvwaddch(mWindow, xy2.second, xy2.first, '&');
-            break;
-        case 's':
-            mvwaddch(mWindow, xy2.second, xy2.first, ' ');
-            player2.requestDown();
-            mvwaddch(mWindow, xy2.second, xy2.first, '&');
-            break;
-        case 'a':
-            mvwaddch(mWindow, xy2.second, xy2.first, ' ');
-            player2.requestLeft();
-            mvwaddch(mWindow, xy2.second, xy2.first, '&');
-            break;
-        case 'd':
-            mvwaddch(mWindow, xy2.second, xy2.first, ' ');
-            player2.requestRight();
-            mvwaddch(mWindow, xy2.second, xy2.first, '&');
-            break;
-        
-        case 'q':
             return;
         }
 
@@ -126,8 +115,5 @@ void GameSession::start()
 
 void GameSession::updateState()
 {
-    auto& [x, y] = lazer.getXY();
-    mvwaddch(mWindow, y, x, ' ');
-    lazer.requestRight();
-    mvwaddch(mWindow, y, x, '-');
+    // Update non-player environment
 }
