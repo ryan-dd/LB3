@@ -3,8 +3,6 @@ A game involving redirecting light to solve puzzles.
 
 ## Requires
 
-Eigen
-
 Ncurses
 ## Build
 

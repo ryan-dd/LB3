@@ -3,32 +3,20 @@
 
 #include <unordered_map>
 #include <cmath>
-#include <Eigen/Dense>
 
-namespace lightpuzzle
+enum class Direction
 {
-    /**
-     * @brief Enum representing direction as a vector
-     * 
-     */
-    enum class Direction
-    {
-        RIGHT = 0,
-        DOWN_RIGHT = 1,
-        DOWN = 2,
-        DOWN_LEFT = 3,
-        LEFT = 4,
-        UP_LEFT = 5,
-        UP = 6,
-        UP_RIGHT = 7,
-        NONE = 8
-    };
+    RIGHT = 0,
+    UP = 1,
+    LEFT = 2,
+    DOWN = 3,
+    NONE = 4
+};
 
-    inline static double sqrt2over2 = std::sqrt(2)/2;
-    int toInt(Direction input);
-    Direction toDirection(int input);
-    Direction getNormal(Direction input);
-    Eigen::Vector2d toVector(Direction direction);
-}
+using Vector2d = std::pair<int, int>;
+int toInt(Direction input);
+Direction toDirection(int input);
+Vector2d toVector(Direction direction);
+Vector2d operator+(const Vector2d& l,const Vector2d& r);
 
 #endif

@@ -4,21 +4,35 @@
 
 #include <ncurses.h>
 #include <string>
+#include <vector>
+#include <unordered_map>
 #include "Agent.h"
+#include "Direction.h"
+
 class GameSession
 {
 private:
     WINDOW* mWindow;
     Agent player1;
     Agent player2;
-    Agent lazer;
+    std::vector<Agent> lasers;
+    int maxY;
+    int maxX;
 
+    std::unordered_map<Direction, char> laserDirectionToChar{
+        {Direction::RIGHT, '-'},
+        {Direction::LEFT, '-'},
+        {Direction::UP, '|'},
+        {Direction::DOWN, '|'},
+        {Direction::NONE, 'x'}
+    };
     struct PlayerInfo
     {
         char up = (char)KEY_UP;
         char down = (char)KEY_DOWN;
         char left = (char)KEY_LEFT;
         char right = (char)KEY_RIGHT;
+        char laser = ' ';
         char representation = '@';
     };
 

@@ -14,8 +14,7 @@ target_include_directories(LightPuzzle PUBLIC
 
 find_package(Curses REQUIRED)
 
-find_package (Eigen3 3.3 REQUIRED NO_MODULE)
-target_link_libraries (LightPuzzle Eigen3::Eigen ${CURSES_LIBRARIES})
+target_link_libraries (LightPuzzle ${CURSES_LIBRARIES})
 
 add_executable(main main.cpp)
 target_link_libraries(main LightPuzzle)
