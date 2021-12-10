@@ -10,9 +10,13 @@ int main()
     int height = 20;
     int width = 70;
     GameSession session(width, height);
-    session.printToSession("Welcome to The Game (Press any key to continue)");
+    session.printToSession("Welcome to Light Battle 3000!!! (Press any key to continue)");
     session.waitForUserInput();
-    session.printToSession("Use the arrow keys to move, and \"q\" to quit. Hope you enjoy! ");
+    session.printToSession("P1 - Arrow keys to move, space bar to shoot");
+    session.waitForUserInput();
+    session.printToSession("P2 - w a s d to move, x to shoot.");
+    session.waitForUserInput();
+    session.printToSession("Also, press \"q\" to quit. Hope you enjoy! ");
     session.waitForUserInput();
     session.clear();
     
