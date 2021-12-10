@@ -40,7 +40,7 @@ void Arena::initializeData(int xMax, int yMax)
         }
         else
         {
-            data.at(i) = std::vector<ObstacleType>(xMax, ObstacleType::EMPTY);
+            data.at(i) = std::vector<ObstacleType>(xMax, ObstacleType::NO_OBSTACLE);
             data.at(i).at(0) = ObstacleType::WALL;
             data.at(i).at(xMax - 1) = ObstacleType::WALL;
         }

@@ -21,7 +21,30 @@ void GameEventHandler::start()
 
 void GameEventHandler::step()
 {
+    updateLasers();
+}
 
+void GameEventHandler::updateLasers()
+{
+    auto itr = lasers.begin();
+    while (itr != lasers.end())
+    {
+        auto& laser = itr->second;
+        auto newLaserPosition = laser.xy + toVector(laser.facingDirection);
+        if(arena.at(newLaserPosition.x, newLaserPosition.y) == ObstacleType::NO_OBSTACLE)
+        {
+            laser.xy = newLaserPosition;
+            renderer.renderLaser(itr->first, 
+                                 newLaserPosition,
+                                 directionToLaserOrientation.at(laser.facingDirection));
+            ++itr;
+        }
+        else
+        {
+            renderer.removeLaser(itr->first);
+            itr = lasers.erase(itr);
+        }
+    }
 }
 
 void GameEventHandler::movePlayer(int playerID, Direction direction)
@@ -31,7 +54,7 @@ void GameEventHandler::movePlayer(int playerID, Direction direction)
 
     auto newPlayerPosition = player.xy + toVector(direction);
 
-    if(arena.at(newPlayerPosition.x, newPlayerPosition.y) == ObstacleType::EMPTY)
+    if(arena.at(newPlayerPosition.x, newPlayerPosition.y) == ObstacleType::NO_OBSTACLE)
     {
         player.xy = newPlayerPosition;
         renderer.renderPlayer(playerID, newPlayerPosition);
@@ -40,5 +63,17 @@ void GameEventHandler::movePlayer(int playerID, Direction direction)
 
 void GameEventHandler::newLaser(int playerID)
 {
-    
+    auto& player = players.at(playerID);
+    auto direction = player.facingDirection;
+    Vector2d newLaserPosition = player.xy + toVector(direction);
+
+    if(arena.at(newLaserPosition.x, newLaserPosition.y) == ObstacleType::NO_OBSTACLE)
+    {
+        Agent newLaser(newLaserPosition, direction);
+        ++currentLaserID;
+        lasers.emplace(currentLaserID, newLaser);
+        renderer.renderLaserFirstTime(currentLaserID, 
+                                      newLaserPosition,
+                                      directionToLaserOrientation.at(direction));
+    }
 }

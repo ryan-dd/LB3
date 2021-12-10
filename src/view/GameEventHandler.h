@@ -14,8 +14,17 @@ private:
     GameRenderer& renderer;
     Arena arena;
     std::unordered_map<ID, Agent> players;
-    std::unordered_map<ID, Vector2d> lasers;
+    std::unordered_map<ID, Agent> lasers;
     ID currentLaserID = 0;
+
+    std::unordered_map<Direction, LaserOrientation> directionToLaserOrientation{
+        {Direction::UP, LaserOrientation::VERTICAL},
+        {Direction::DOWN, LaserOrientation::VERTICAL},
+        {Direction::LEFT, LaserOrientation::HORIZONTAL},
+        {Direction::RIGHT, LaserOrientation::HORIZONTAL}
+    };
+
+    void updateLasers();
 public:
     GameEventHandler(GameRenderer& renderer, int xMax, int yMax);
     void start();

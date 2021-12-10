@@ -7,13 +7,13 @@ GameRenderer::GameRenderer(WINDOW* window):
     playerSymbols[1] = '&';
 }
 
-void GameRenderer::renderPlayerFirstTime(int playerID, Vector2d newPosition)
+void GameRenderer::renderPlayerFirstTime(ID playerID, Vector2d newPosition)
 {
     playerPositions[playerID] = newPosition;
     mvwaddch(window, newPosition.y, newPosition.x, playerSymbols[playerID]);
 }
 
-void GameRenderer::renderPlayer(int playerID, Vector2d newPosition)
+void GameRenderer::renderPlayer(ID playerID, Vector2d newPosition)
 {
     auto& currPosition = playerPositions[playerID];
     mvwaddch(window, currPosition.y, currPosition.x, ' ');
@@ -35,17 +35,23 @@ void GameRenderer::renderArena(const Arena& arena)
     }
 }
 
-void GameRenderer::renderLaserFirstTime(int laserID, Vector2d newPosition, LaserOrientation orientation)
+void GameRenderer::renderLaserFirstTime(ID laserID, Vector2d newPosition, LaserOrientation orientation)
 {
-
+    lasers[laserID] = newPosition;
+    mvwaddch(window, newPosition.y, newPosition.x, laserOrientationSymbol.at(orientation));
 }
 
-void GameRenderer::renderLaser(int laserID, Vector2d newPosition, LaserOrientation orientation)
+void GameRenderer::renderLaser(ID laserID, Vector2d newPosition, LaserOrientation orientation)
 {
-
+    auto& currPosition = lasers.at(laserID);
+    mvwaddch(window, currPosition.y, currPosition.x, ' ');
+    mvwaddch(window, newPosition.y, newPosition.x, laserOrientationSymbol.at(orientation));
+    currPosition = newPosition;
 }
 
-void GameRenderer::removeLaser(int laserID)
+void GameRenderer::removeLaser(ID laserID)
 {
-
+    const auto& laserPosition = lasers.at(laserID);
+    mvwaddch(window, laserPosition.y, laserPosition.x, ' ');
+    lasers.erase(laserID);
 }

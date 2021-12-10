@@ -15,7 +15,7 @@ private:
     std::unordered_map<ID, Vector2d> playerPositions;
     std::unordered_map<ID, char> playerSymbols;
     std::unordered_map<ID, Vector2d> lasers;
-    std::unordered_map<LaserOrientation, char> LaserOrientationSymbol{
+    std::unordered_map<LaserOrientation, char> laserOrientationSymbol{
         {LaserOrientation::VERTICAL, '|'},
         {LaserOrientation::HORIZONTAL, '-'}
     };
@@ -23,12 +23,12 @@ private:
 public:
     GameRenderer(WINDOW* window);
     void renderArena(const Arena& arena);
-    void renderPlayerFirstTime(int playerID, Vector2d newPosition);
-    void renderPlayer(int playerID, Vector2d newPosition);
+    void renderPlayerFirstTime(ID playerID, Vector2d newPosition);
+    void renderPlayer(ID playerID, Vector2d newPosition);
 
-    void renderLaserFirstTime(int laserID, Vector2d newPosition, LaserOrientation orientation);
-    void renderLaser(int laserID, Vector2d newPosition, LaserOrientation orientation);
-    void removeLaser(int laserID);
+    void renderLaserFirstTime(ID laserID, Vector2d newPosition, LaserOrientation orientation);
+    void renderLaser(ID laserID, Vector2d newPosition, LaserOrientation orientation);
+    void removeLaser(ID laserID);
 };
 
 

@@ -24,4 +24,10 @@ inline Vector2d operator+(const Vector2d& lhs, const Vector2d& rhs)
     return {lhs.x + rhs.x, lhs.y + rhs.y};                                    
 }  
 
+inline bool operator==(const Vector2d& lhs, const Vector2d& rhs)
+{
+    return (lhs.x == rhs.x &&
+            lhs.y == rhs.y);
+}
+
 #endif // VECTOR2D_H

@@ -12,6 +12,12 @@ struct Agent
         facingDirection(initialDirection)
     {
     }
+
+    Agent(Vector2d xy, Direction initialDirection):
+        xy(xy),
+        facingDirection(initialDirection)
+    {
+    }
     
     Vector2d xy;
     Direction facingDirection;

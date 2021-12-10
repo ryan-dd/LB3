@@ -3,7 +3,7 @@
 
 enum class ObstacleType
 {
-    EMPTY = 0,
+    NO_OBSTACLE = 0,
     WALL = 1,
     OBSTACLE = 2
 };
