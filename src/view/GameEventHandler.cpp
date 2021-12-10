@@ -9,6 +9,7 @@ GameEventHandler::GameEventHandler(GameRenderer& renderer, int xMax, int yMax):
 {
     arena.generateObstacles(30, ObstacleType::FORWARD_MIRROR);
     arena.generateObstacles(30, ObstacleType::BACK_MIRROR);
+    arena.generateObstacles(30, ObstacleType::TELEPORTER);
 }
 
 void GameEventHandler::start()
@@ -38,7 +39,8 @@ void GameEventHandler::updateLasers()
         auto& laser = itr->second;
         auto newLaserPosition = laser.xy + toVector(laser.facingDirection);
         auto typeAtNewPosition = arena.at(newLaserPosition);
-        if(typeAtNewPosition == ObstacleType::NO_OBSTACLE)
+        if(typeAtNewPosition == ObstacleType::NO_OBSTACLE ||
+           typeAtNewPosition == ObstacleType::TELEPORTER)
         {
             laser.xy = newLaserPosition;
             
@@ -132,11 +134,17 @@ void GameEventHandler::movePlayer(int playerID, Direction direction)
     player.facingDirection = direction;
 
     auto newPlayerPosition = player.xy + toVector(direction);
-
-    if(arena.at(newPlayerPosition) == ObstacleType::NO_OBSTACLE)
+    auto obstacleType = arena.at(newPlayerPosition);
+    
+    if(obstacleType == ObstacleType::NO_OBSTACLE)
     {
         player.xy = newPlayerPosition;
-        renderer.renderPlayer(playerID, newPlayerPosition);
+        renderer.renderPlayer(playerID, player.xy);
+    }
+    else if(obstacleType == ObstacleType::TELEPORTER)
+    {
+        player.xy = arena.getRandomTeleporterLocation(newPlayerPosition);
+        renderer.renderPlayer(playerID, player.xy);
     }
 }
 
@@ -148,6 +156,7 @@ void GameEventHandler::newLaser(int playerID)
 
     auto obstacleType = arena.at(newLaserPosition);
     if(obstacleType == ObstacleType::NO_OBSTACLE ||
+       obstacleType == ObstacleType::TELEPORTER ||
        obstacleType == ObstacleType::FORWARD_MIRROR ||
        obstacleType == ObstacleType::BACK_MIRROR)
     {
@@ -163,7 +172,6 @@ void GameEventHandler::newLaser(int playerID)
         Agent newLaser(newLaserPosition, direction);
         ++currentLaserID;
         lasers.emplace(currentLaserID, newLaser);
-        Logger::log("Got to rendering");
 
         renderer.renderLaserFirstTime(
             currentLaserID, 

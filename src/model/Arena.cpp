@@ -7,7 +7,8 @@ Arena::Arena(int xMax, int yMax):
     yMax(yMax),
     xCoordinateGenerator(1, xMax-2),
     yCoordinateGenerator(1, yMax-2),
-    boolGenerator(0, 1)
+    boolGenerator(0, 1),
+    randomTeleporterIndexGenerator(nullptr)
 {
     initializeData(xMax, yMax);
 }
@@ -32,6 +33,28 @@ ObstacleType Arena::at(Vector2d input) const
     return data.at(input.y).at(input.x);
 }
 
+Vector2d Arena::getRandomTeleporterLocation(Vector2d currTeleporterPosition)
+{
+    if(randomTeleporterIndexGenerator == nullptr ||
+       teleporters.size() == 1)
+    {
+        throw std::runtime_error("Arena::getRandomTeleporterLocation - Method called when there were only 0 or 1 teleporters present");
+    }
+    else
+    {
+        while(true)
+        {
+            auto newPosition = teleporters.at(randomTeleporterIndexGenerator->getRandomInt());
+            if(currTeleporterPosition == newPosition)
+            {
+                continue;
+            }
+
+            return newPosition;
+        }
+    }
+}
+
 void Arena::initializeData(int xMax, int yMax)
 {
     data.resize(yMax);
@@ -52,10 +75,27 @@ void Arena::initializeData(int xMax, int yMax)
 
 void Arena::generateObstacles(int numObstacles, ObstacleType type)
 {
+    if(numObstacles < 1)
+    {
+        Logger::log("Arena::generateObstacles - Invalid number of obstacles specified");
+        return;
+    }
+
     if(type == ObstacleType::NO_OBSTACLE || type == ObstacleType::WALL)
     {
         Logger::log("Arena::generateObstacles - Cannot generate obstacles of ObstacleType::NO_OBSTACLE or ObstacleType::WALL type");
         return;
+    }
+
+    bool isTeleporter = false;
+    if(type == ObstacleType::TELEPORTER)
+    {
+        isTeleporter = true;
+        if(numObstacles == 1)
+        {
+            Logger::log("Arena::generateObstacles - Must create two or more teleporters");
+            return;
+        }
     }
 
     for(int i = 0; i < numObstacles; ++i)
@@ -67,10 +107,20 @@ void Arena::generateObstacles(int numObstacles, ObstacleType type)
         if(currType == ObstacleType::NO_OBSTACLE)
         {
             currType = type;
+            
+            if(isTeleporter)
+            {
+                teleporters.push_back(Vector2d(x, y));
+            }
         }
         else
         {
             --i; // Another type was present, so try generating again.
         }
+    }
+
+    if(isTeleporter)
+    {
+        randomTeleporterIndexGenerator = std::make_unique<RandomIntGenerator>(0, teleporters.size()-1);
     }
 }

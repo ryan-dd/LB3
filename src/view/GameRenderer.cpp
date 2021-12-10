@@ -64,6 +64,7 @@ void GameRenderer::renderArena(const Arena& arena)
     char obstacleSymbol = 'o';
     char forwardMirrorSymbol = '/';
     char backMirrorSymbol = '\\';
+    char teleporterSymbol = '*';
 
     // Cache arena symbols
     arenaSymbols.resize(arena.getMaxY());
@@ -89,6 +90,10 @@ void GameRenderer::renderArena(const Arena& arena)
             case ObstacleType::BACK_MIRROR:
                 renderChar(x_index, y_index, backMirrorSymbol);
                 arenaSymbols.at(y_index).at(x_index) = backMirrorSymbol;
+                break;
+            case ObstacleType::TELEPORTER:
+                renderChar(x_index, y_index, teleporterSymbol);
+                arenaSymbols.at(y_index).at(x_index) = teleporterSymbol;
                 break;
             default:
                 break;

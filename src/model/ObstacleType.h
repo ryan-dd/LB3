@@ -8,6 +8,7 @@ enum class ObstacleType
     OBSTACLE = 2,
     FORWARD_MIRROR = 3,
     BACK_MIRROR = 4,
+    TELEPORTER = 5
 };
 
 #endif // OBSTACLETYPE_H
