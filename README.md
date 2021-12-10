@@ -18,4 +18,4 @@ C++20
 
 ## Run
 
-./build/bin/main
+`./bin/main`
