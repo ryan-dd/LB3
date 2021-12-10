@@ -145,7 +145,9 @@ void GameSession::start()
     nodelay(window, false);
     
     this->clear();
-    auto [p1score, p2score] = eventHandler->getFinalScores();
+    auto scores = eventHandler->getFinalScores();
+    auto p1score = scores.first;
+    auto p2score = scores.second;
     if(p1score > p2score)
     {
         printToSession("Player 1 wins!");

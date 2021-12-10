@@ -5,7 +5,7 @@ A two-player laser battle game.
 
 Curses
 
-C++20
+C++14
 ## Build
 
 `mkdir build`
