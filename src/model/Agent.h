@@ -3,29 +3,18 @@
 
 #include <utility>
 #include "Direction.h"
+#include "Vector2d.h"
 
-class Agent
+struct Agent
 {
-private:
-    std::pair<int, int> xy{1, 1};
-    int maxX;
-    int maxY;
-    Direction lastDirection = Direction::NONE;
-    bool movedAgainstObstacle = false;
+    Agent(int x, int y, Direction initialDirection):
+        xy(x, y),
+        facingDirection(initialDirection)
+    {
+    }
     
-public:
-    Agent(int maxX, int maxY, int startX, int startY);
-    Agent(int maxX, int maxY, int startX, int startY, Direction currDirection);
-    Agent();
-    Vector2d getXY() const;
-    Direction getLastDirection() const;
-    bool justMovedAgainstObstacle() const;
-    void requestUp();
-    void requestDown();
-    void requestLeft();
-    void requestRight();
+    Vector2d xy;
+    Direction facingDirection;
 };
-
-
 
 #endif

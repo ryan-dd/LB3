@@ -1,15 +1,15 @@
 add_library(LightPuzzle 
-    model/Arena.cpp 
-    model/obstacles/Mirror.cpp 
     model/Direction.cpp 
-    model/Agent.cpp 
+    model/Arena.cpp 
     view/GameSession.cpp 
+    view/GameEventHandler.cpp 
+    view/GameRenderer.cpp 
 )
 
 target_include_directories(LightPuzzle PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/model/
     ${CMAKE_CURRENT_SOURCE_DIR}/view/
-    ${CMAKE_CURRENT_SOURCE_DIR}/model/obstacles
+    ${CMAKE_CURRENT_SOURCE_DIR}/util/
 )
 
 find_package(Curses REQUIRED)

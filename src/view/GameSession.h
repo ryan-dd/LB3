@@ -5,7 +5,11 @@
 #include <ncurses.h>
 #include <string>
 #include <vector>
+#include <memory>
 #include <unordered_map>
+
+#include "GameRenderer.h"
+#include "GameEventHandler.h"
 #include "Agent.h"
 #include "Direction.h"
 
@@ -13,34 +17,24 @@ class GameSession
 {
 private:
     WINDOW* mWindow;
-    Agent player1;
-    Agent player2;
-    std::vector<Agent> lasers;
-    int maxY;
-    int maxX;
+    std::unique_ptr<GameRenderer> renderer;
+    std::unique_ptr<GameEventHandler> eventHandler;
 
-    std::unordered_map<Direction, char> laserDirectionToChar{
-        {Direction::RIGHT, '-'},
-        {Direction::LEFT, '-'},
-        {Direction::UP, '|'},
-        {Direction::DOWN, '|'},
-        {Direction::NONE, 'x'}
-    };
-    struct PlayerInfo
+    struct PlayerInputInfo
     {
+        int id = 0;
         char up = (char)KEY_UP;
         char down = (char)KEY_DOWN;
         char left = (char)KEY_LEFT;
         char right = (char)KEY_RIGHT;
         char laser = ' ';
-        char representation = '@';
     };
 
-    PlayerInfo playerOneInfo;
-    PlayerInfo playerTwoInfo;
+    PlayerInputInfo playerOneInfo;
+    PlayerInputInfo playerTwoInfo;
+    void initPlayerInputInfo();
 
-    void initPlayerInfo();
-    void updatePlayer(char input, Agent& player, PlayerInfo playerInfo);
+    void updatePlayer(char input, PlayerInputInfo playerInfo);
 
 public:
     GameSession(int height, int width);

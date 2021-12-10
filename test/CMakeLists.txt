@@ -7,7 +7,9 @@ FetchContent_Declare(
     
 FetchContent_MakeAvailable(googletest)
     
-add_executable(integration_tests IntegrationTest.cpp)
-target_link_libraries(integration_tests PUBLIC gtest_main)
+add_executable(integration_tests 
+    VectorTest.cpp
+)
+target_link_libraries(integration_tests PUBLIC gtest_main LightPuzzle)
 
 add_test(integration_tests tests) 
