@@ -12,8 +12,8 @@ GameSession::GameSession(int xMax, int yMax)
 
     if(!has_colors())
     {
-        endwin();
         printToSession("Your terminal doesn't support colors. Please switch to one that does");
+        endwin();
         std::this_thread::sleep_for(std::chrono::seconds(1));
         exit(1);
     }
