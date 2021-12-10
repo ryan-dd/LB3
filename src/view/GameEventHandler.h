@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <unordered_map>
+#include <utility>
 
 class GameEventHandler
 {
@@ -15,7 +16,7 @@ private:
     Arena arena;
     std::unordered_map<ID, Agent> players;
     std::unordered_map<ID, int> playersScores;
-    
+
     std::unordered_map<ID, Agent> lasers;
     ID currentLaserID = 0;
 
@@ -33,6 +34,7 @@ public:
     void step();
     void movePlayer(int playerID, Direction direction);
     void newLaser(int playerID);
+    std::pair<int, int> getFinalScores();
 };
 
 #endif // GAMEEVENTHANDLER_H

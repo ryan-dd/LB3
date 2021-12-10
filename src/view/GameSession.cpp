@@ -30,7 +30,7 @@ void GameSession::initPlayerInputInfo()
     playerTwoInfo.down = 's';
     playerTwoInfo.left = 'a';
     playerTwoInfo.right = 'd';
-    playerTwoInfo.laser = 'g';
+    playerTwoInfo.laser = 'z';
 }
 
 void GameSession::updatePlayer(char input, PlayerInputInfo playerInfo)
@@ -86,16 +86,29 @@ void GameSession::start()
 {   
     eventHandler->start();
 
+    auto start = std::chrono::steady_clock::now();
     auto tick = std::chrono::milliseconds(50);
-    auto nextTick = std::chrono::steady_clock::now() + tick;
+    auto nextTick = start + tick;
     nodelay(mWindow, true);
     
-    while(true)
+    auto now = start;
+    int secondsToPlay = 60;
+    int secondsLeftToPlay = secondsToPlay;
+    auto nextSecond = now + std::chrono::seconds(1);
+
+    while(now < start + std::chrono::seconds(secondsToPlay))
     {
-        if(std::chrono::steady_clock::now() > nextTick)
+        if(now > nextTick)
         {   
             updateState();
             nextTick += tick;
+        }
+
+        if(now > nextSecond)
+        {
+            nextSecond += std::chrono::seconds(1);
+            --secondsLeftToPlay;
+            renderer->renderSecondsLeft(secondsLeftToPlay);
         }
 
         char choice = wgetch(mWindow);
@@ -107,8 +120,30 @@ void GameSession::start()
             return;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        now = std::chrono::steady_clock::now();
     }
+
+    nodelay(mWindow, false);
+    
+    this->clear();
+    auto [p1score, p2score] = eventHandler->getFinalScores();
+    if(p1score > p2score)
+    {
+        printToSession("Player 1 wins!");
+    }
+    else if(p2score > p1score)
+    {
+        printToSession("Player 2 wins!");
+    }
+    else
+    {
+        printToSession("Tie!");
+    }
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    waitForUserInput();
 }
+
+
 
 void GameSession::updateState()
 {

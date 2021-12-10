@@ -28,6 +28,7 @@ private:
 public:
     GameRenderer(WINDOW* window);
     void renderArena(const Arena& arena);
+    void renderSecondsLeft(int seconds);
     
     void renderPlayerFirstTime(ID playerID, Vector2d newPosition);
     void renderPlayer(ID playerID, Vector2d newPosition);

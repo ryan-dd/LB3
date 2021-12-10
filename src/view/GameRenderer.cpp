@@ -11,7 +11,7 @@ GameRenderer::GameRenderer(WINDOW* window):
     int y, x;
     getmaxyx(window, y, x);
     playerScorePositions.emplace(0, Vector2d(0, y-1));
-    playerScorePositions.emplace(1, Vector2d(10, y-1));
+    playerScorePositions.emplace(1, Vector2d(x-2, y-1));
 }
 
 void GameRenderer::renderPlayerFirstTime(ID playerID, Vector2d newPosition)
@@ -26,6 +26,18 @@ void GameRenderer::renderPlayer(ID playerID, Vector2d newPosition)
     mvwaddch(window, currPosition.y, currPosition.x, ' ');
     mvwaddch(window, newPosition.y, newPosition.x, playerSymbols[playerID]);
     currPosition = newPosition;
+}
+
+void GameRenderer::renderSecondsLeft(int seconds)
+{
+    int y, x;
+    getmaxyx(window, y, x);
+    std::string clearString = "  ";
+    int printY = y-1;
+    int printX = x/2;
+    auto secondsLeftStr = std::to_string(seconds);
+    mvwprintw(window, printY, printX, clearString.c_str());
+    mvwprintw(window, printY, printX, secondsLeftStr.c_str());
 }
 
 void GameRenderer::renderArena(const Arena& arena)

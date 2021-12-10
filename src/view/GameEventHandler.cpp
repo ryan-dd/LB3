@@ -6,14 +6,16 @@ GameEventHandler::GameEventHandler(GameRenderer& renderer, int xMax, int yMax):
     renderer(renderer),
     arena(xMax, yMax)
 {
-    arena.generateObstacles(50);
+    arena.generateObstacles(20);
 }
 
 void GameEventHandler::start()
 {   
     renderer.renderArena(arena);
-    players.insert({0, Agent(3, 3, Direction::LEFT)});
+    renderer.renderPlayerScore(0, 0);
+    renderer.renderPlayerScore(1, 0);
     players.insert({1, Agent(1, 1, Direction::RIGHT)});
+    players.insert({0, Agent(arena.getXmax()-2, arena.getYmax()-2, Direction::LEFT)});
     playersScores.insert({0, 0});
     playersScores.insert({1, 0});
 
@@ -99,4 +101,9 @@ void GameEventHandler::newLaser(int playerID)
                                       newLaserPosition,
                                       directionToLaserOrientation.at(direction));
     }
+}
+
+std::pair<int, int> GameEventHandler::getFinalScores()
+{
+    return {playersScores[0], playersScores[1]};
 }

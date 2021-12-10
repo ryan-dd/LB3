@@ -34,6 +34,7 @@ private:
     PlayerInputInfo playerTwoInfo;
     void initPlayerInputInfo();
 
+
     void updatePlayer(char input, PlayerInputInfo playerInfo);
 
 public:
