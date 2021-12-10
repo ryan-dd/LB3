@@ -17,8 +17,8 @@ public:
     void generateObstacles(int numObstacles);
     ObstacleType at(int x, int y) const;
     ObstacleType at(Vector2d input) const;
-    int getXmax() const;
-    int getYmax() const;
+    int getMaxX() const;
+    int getMaxY() const;
 };
 
 #endif // ARENA_H

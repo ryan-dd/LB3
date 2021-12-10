@@ -15,7 +15,7 @@ void GameEventHandler::start()
     renderer.renderPlayerScore(0, 0);
     renderer.renderPlayerScore(1, 0);
     players.insert({1, Agent(1, 1, Direction::RIGHT)});
-    players.insert({0, Agent(arena.getXmax()-2, arena.getYmax()-2, Direction::LEFT)});
+    players.insert({0, Agent(arena.getMaxX()-2, arena.getMaxY()-2, Direction::LEFT)});
     playersScores.insert({0, 0});
     playersScores.insert({1, 0});
 

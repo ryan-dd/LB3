@@ -8,12 +8,12 @@ Arena::Arena(int xMax, int yMax):
     initializeData(xMax, yMax);
 }
 
-int Arena::getXmax() const
+int Arena::getMaxX() const
 {
     return xMax;
 }
 
-int Arena::getYmax() const
+int Arena::getMaxY() const
 {
     return yMax;
 }

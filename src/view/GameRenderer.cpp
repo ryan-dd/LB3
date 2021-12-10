@@ -56,9 +56,9 @@ void GameRenderer::renderSecondsLeft(int seconds)
 
 void GameRenderer::renderArena(const Arena& arena)
 {
-    for (int y_index = 0; y_index < arena.getYmax(); y_index++)
+    for (int y_index = 0; y_index < arena.getMaxY(); y_index++)
     {
-        for (int x_index = 0; x_index < arena.getXmax(); x_index++)
+        for (int x_index = 0; x_index < arena.getMaxX(); x_index++)
         {
             if(arena.at(x_index, y_index) == ObstacleType::OBSTACLE)
             {
