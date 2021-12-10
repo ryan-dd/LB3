@@ -1,11 +1,13 @@
 # LB3 - Laser Blast 3000
 
-A two-player laser battle game.
+A two-player laser battle game played in the terminal.
 ## Requires
 
 Curses
 
 C++14
+
+Terminal that supports colors
 ## Build
 
 `mkdir build`
