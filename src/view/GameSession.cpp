@@ -4,11 +4,11 @@
 GameSession::GameSession(int xMax, int yMax)
 {
     initscr();
-    mWindow = newwin(yMax, xMax, 0, 0);
+    window = newwin(yMax, xMax, 0, 0);
     cbreak(); // Allow to control-c out of the game
     noecho(); // Don't print typed characters
     curs_set(0); // Hide cursor
-    keypad(mWindow, true); // Can use keyboard characters
+    keypad(window, true); // Can use keyboard characters
 
     if(!has_colors())
     {
@@ -27,9 +27,9 @@ GameSession::GameSession(int xMax, int yMax)
 	attron(COLOR_PAIR(0));
 	
     refresh();
-    box(mWindow, 0, 0);
+    box(window, 0, 0);
     
-    renderer = std::make_unique<GameRenderer>(mWindow);
+    renderer = std::make_unique<GameRenderer>(window);
     eventHandler = std::make_unique<GameEventHandler>(*renderer, xMax, yMax);
     initPlayerInputInfo();
 }
@@ -83,22 +83,22 @@ void GameSession::waitForUserInput()
 
 void GameSession::printToSession(const std::string& input)
 {
-    werase(mWindow);
-    wrefresh(mWindow);
-    box(mWindow, 0, 0);
+    werase(window);
+    wrefresh(window);
+    box(window, 0, 0);
     int yMax;
     int xMax;
-    getmaxyx(mWindow, yMax, xMax);
-    mvwprintw(mWindow, yMax/2, xMax/2 - input.size()/2, input.c_str());
-    wrefresh(mWindow);
+    getmaxyx(window, yMax, xMax);
+    mvwprintw(window, yMax/2, xMax/2 - input.size()/2, input.c_str());
+    wrefresh(window);
 }
 
 void GameSession::clear()
 {
-    werase(mWindow);
-    wrefresh(mWindow);
-    box(mWindow, 0, 0);
-    wrefresh(mWindow);
+    werase(window);
+    wrefresh(window);
+    box(window, 0, 0);
+    wrefresh(window);
 }
 
 void GameSession::start()
@@ -108,12 +108,12 @@ void GameSession::start()
     auto start = std::chrono::steady_clock::now();
     auto tick = std::chrono::milliseconds(50);
     auto nextTick = start + tick;
-    nodelay(mWindow, true);
     
     auto now = start;
     int secondsToPlay = 60;
     int secondsLeftToPlay = secondsToPlay;
     auto nextSecond = now + std::chrono::seconds(1);
+    nodelay(window, true);
 
     while(now < start + std::chrono::seconds(secondsToPlay))
     {
@@ -130,7 +130,7 @@ void GameSession::start()
             renderer->renderSecondsLeft(secondsLeftToPlay);
         }
 
-        char choice = wgetch(mWindow);
+        char choice = wgetch(window);
         updatePlayer(choice, playerOneInfo);
         updatePlayer(choice, playerTwoInfo);
         
@@ -142,7 +142,7 @@ void GameSession::start()
         now = std::chrono::steady_clock::now();
     }
 
-    nodelay(mWindow, false);
+    nodelay(window, false);
     
     this->clear();
     auto [p1score, p2score] = eventHandler->getFinalScores();

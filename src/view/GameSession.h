@@ -16,7 +16,7 @@
 class GameSession
 {
 private:
-    WINDOW* mWindow;
+    WINDOW* window;
     std::unique_ptr<GameRenderer> renderer;
     std::unique_ptr<GameEventHandler> eventHandler;
 

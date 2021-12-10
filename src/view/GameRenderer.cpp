@@ -15,37 +15,37 @@ GameRenderer::GameRenderer(WINDOW* window):
     int y, x;
     getmaxyx(window, y, x);
     playerScorePositions.insert({0, Vector2d(0, y-1)});
-    playerScorePositions.insert({1, Vector2d(x-2, y-1)});
+    playerScorePositions.insert({1, Vector2d(x-4, y-1)});
 }
 
 void GameRenderer::renderPlayerAppeared(ID playerID, Vector2d newPosition)
 {
     playerPositions.insert({playerID, newPosition});
-    reRenderPlayer(playerID);
+    renderPlayer(playerID);
 }
 
 void GameRenderer::renderPlayerMoved(ID playerID, Vector2d newPosition)
 {
     auto& currPosition = playerPositions.at(playerID);
     playerColor.at(playerID) = 1; // Move color
-    reRerenderArenaLocation(currPosition);
+    renderArenaLocation(currPosition);
     currPosition = newPosition;
-    reRenderAllPlayers();
+    renderAllPlayers();
 }
 
 void GameRenderer::renderPlayerShot(ID playerID)
 {   
     playerColor.at(playerID) = 2; // Shot color
-    reRenderPlayer(playerID);
+    renderPlayer(playerID);
 }
 
 void GameRenderer::renderPlayerTeleported(ID playerID, Vector2d newPosition)
 {   
     auto& currPosition = playerPositions.at(playerID);
-    reRerenderArenaLocation(currPosition);
+    renderArenaLocation(currPosition);
     currPosition = newPosition;
     playerColor.at(playerID) = 3; // Teleport color
-    reRenderPlayer(playerID);
+    renderPlayer(playerID);
 }
 
 void GameRenderer::renderLaserAppeared(
@@ -64,7 +64,7 @@ void GameRenderer::renderLaserAppeared(
 void GameRenderer::renderLaserMoved(ID laserID, Vector2d newPosition, LaserOrientation orientation)
 {
     auto& currPosition = lasers.at(laserID);
-    reRerenderArenaLocation(currPosition);
+    renderArenaLocation(currPosition);
     
     if(getArenaSymbol(newPosition) == ' ')
     {
@@ -72,42 +72,44 @@ void GameRenderer::renderLaserMoved(ID laserID, Vector2d newPosition, LaserOrien
     }
 
     currPosition = newPosition;
-    reRenderAllPlayers();
+    renderAllPlayers();
 }
 
 void GameRenderer::renderLaserRemoved(ID laserID)
 {
     const auto& laserPosition = lasers.at(laserID);
-    reRerenderArenaLocation(laserPosition);
+    renderArenaLocation(laserPosition);
     lasers.erase(laserID);
-    reRenderAllPlayers();
+    renderAllPlayers();
 }
 
-void GameRenderer::reRenderPlayer(ID playerID)
+void GameRenderer::renderPlayer(ID playerID)
 {
     wattron(window, COLOR_PAIR(playerColor.at(playerID)));
     renderChar(playerPositions.at(playerID), playerSymbols.at(playerID));
     wattroff(window, COLOR_PAIR(playerColor.at(playerID)));
 }
 
-void GameRenderer::reRenderAllPlayers()
+void GameRenderer::renderAllPlayers()
 {
     for(auto iter = playerPositions.begin(); iter != playerPositions.end(); ++iter)
     {
-        reRenderPlayer(iter->first);
+        renderPlayer(iter->first);
     }
 }
 
 void GameRenderer::renderPlayerScore(ID playerID, int score)
 {
     const auto& scorePosition = playerScorePositions.at(playerID);
+    mvwprintw(window, scorePosition.y, scorePosition.x, clearString.c_str());
+
     auto scoreString = std::to_string(score);
     wattron(window, COLOR_PAIR(4));
     mvwprintw(window, scorePosition.y, scorePosition.x, scoreString.c_str());
     wattroff(window, COLOR_PAIR(4));
 }
 
-void GameRenderer::reRerenderArenaLocation(Vector2d location)
+void GameRenderer::renderArenaLocation(Vector2d location)
 {
     renderChar(location, arenaSymbols.at(location.y).at(location.x));
 }
@@ -116,7 +118,6 @@ void GameRenderer::renderSecondsLeft(int seconds)
 {
     int y, x;
     getmaxyx(window, y, x);
-    std::string clearString = "  ";
     int printY = y-1;
     int printX = x/2;
     auto secondsLeftStr = std::to_string(seconds);

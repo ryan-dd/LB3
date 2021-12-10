@@ -18,6 +18,7 @@ private:
     std::unordered_map<ID, int> playersScores;
 
     std::unordered_map<ID, Agent> lasers;
+    std::unordered_map<ID, ID> laserShotBy;
     ID currentLaserID = 0;
 
     std::unordered_map<Direction, LaserOrientation> directionToLaserOrientation{

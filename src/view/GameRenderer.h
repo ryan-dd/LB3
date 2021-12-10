@@ -12,6 +12,7 @@ class GameRenderer
 {
 private:
     WINDOW* window;
+    const std::string clearString = "   ";
 
     // Player data
     std::unordered_map<ID, Vector2d> playerPositions;
@@ -30,9 +31,9 @@ private:
     std::vector<std::vector<char>> arenaSymbols;
     char getArenaSymbol(Vector2d input);
 
-    void reRerenderArenaLocation(Vector2d location);
-    void reRenderAllPlayers();
-    void reRenderPlayer(ID playerID);
+    void renderArenaLocation(Vector2d location);
+    void renderAllPlayers();
+    void renderPlayer(ID playerID);
     
     inline void renderChar(Vector2d location, char symbol)
     {
