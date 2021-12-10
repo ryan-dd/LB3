@@ -14,6 +14,8 @@ private:
     GameRenderer& renderer;
     Arena arena;
     std::unordered_map<ID, Agent> players;
+    std::unordered_map<ID, int> playersScores;
+    
     std::unordered_map<ID, Agent> lasers;
     ID currentLaserID = 0;
 

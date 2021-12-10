@@ -14,6 +14,8 @@ void GameEventHandler::start()
     renderer.renderArena(arena);
     players.insert({0, Agent(3, 3, Direction::LEFT)});
     players.insert({1, Agent(1, 1, Direction::RIGHT)});
+    playersScores.insert({0, 0});
+    playersScores.insert({1, 0});
 
     renderer.renderPlayerFirstTime(0, players.at(0).xy);
     renderer.renderPlayerFirstTime(1, players.at(1).xy);
@@ -34,6 +36,27 @@ void GameEventHandler::updateLasers()
         if(arena.at(newLaserPosition.x, newLaserPosition.y) == ObstacleType::NO_OBSTACLE)
         {
             laser.xy = newLaserPosition;
+            
+            if(players.at(0).xy == newLaserPosition)
+            {
+                auto& otherPlayerScore = playersScores.at(1);
+                ++otherPlayerScore;
+                renderer.renderPlayerScore(1, otherPlayerScore);
+                renderer.removeLaser(itr->first);
+                itr = lasers.erase(itr);
+                continue;
+            }
+
+            if(players.at(1).xy == newLaserPosition)
+            {
+                auto& otherPlayerScore = playersScores.at(0);
+                ++otherPlayerScore;
+                renderer.renderPlayerScore(0, otherPlayerScore);
+                renderer.removeLaser(itr->first);
+                itr = lasers.erase(itr);
+                continue;
+            }
+
             renderer.renderLaser(itr->first, 
                                  newLaserPosition,
                                  directionToLaserOrientation.at(laser.facingDirection));

@@ -50,7 +50,7 @@ void Arena::initializeData(int xMax, int yMax)
 void Arena::generateObstacles(int numObstacles)
 {
     int yMax = data.size();
-    int xMax = data[0].size();
+    int xMax = data.at(0).size();
 
     // Generate obstacles
     std::mt19937 xRng(std::random_device{}());

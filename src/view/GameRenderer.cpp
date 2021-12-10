@@ -1,10 +1,17 @@
 #include "GameRenderer.h"
 
+#include <string>
+
 GameRenderer::GameRenderer(WINDOW* window): 
     window(window)
 {
-    playerSymbols[0] = '@';
-    playerSymbols[1] = '&';
+    playerSymbols.insert({0, '@'});
+    playerSymbols.insert({1, '&'});
+
+    int y, x;
+    getmaxyx(window, y, x);
+    playerScorePositions.emplace(0, Vector2d(0, y-1));
+    playerScorePositions.emplace(1, Vector2d(10, y-1));
 }
 
 void GameRenderer::renderPlayerFirstTime(ID playerID, Vector2d newPosition)
@@ -23,9 +30,9 @@ void GameRenderer::renderPlayer(ID playerID, Vector2d newPosition)
 
 void GameRenderer::renderArena(const Arena& arena)
 {
-    for (size_t y_index = 0; y_index < arena.getYmax(); y_index++)
+    for (int y_index = 0; y_index < arena.getYmax(); y_index++)
     {
-        for (size_t x_index = 0; x_index < arena.getXmax(); x_index++)
+        for (int x_index = 0; x_index < arena.getXmax(); x_index++)
         {
             if(arena.at(x_index, y_index) == ObstacleType::OBSTACLE)
             {
@@ -33,6 +40,13 @@ void GameRenderer::renderArena(const Arena& arena)
             }
         }
     }
+}
+
+void GameRenderer::renderPlayerScore(ID playerID, int score)
+{
+    const auto& scorePosition = playerScorePositions.at(playerID);
+    auto scoreString = std::to_string(score);
+    mvwprintw(window, scorePosition.y, scorePosition.x, scoreString.c_str());
 }
 
 void GameRenderer::renderLaserFirstTime(ID laserID, Vector2d newPosition, LaserOrientation orientation)
