@@ -17,7 +17,7 @@ int main()
     session.start();
 
     session.clear();
-    session.printToSession("Time's up! Thanks for playing!");
+    session.printToSession("Thanks for playing!");
     std::this_thread::sleep_for(std::chrono::seconds(2));
     session.waitForUserInput();
 }

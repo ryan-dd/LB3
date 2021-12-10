@@ -10,6 +10,6 @@ FetchContent_MakeAvailable(googletest)
 add_executable(integration_tests 
     VectorTest.cpp
 )
-target_link_libraries(integration_tests PUBLIC gtest_main LightPuzzle)
+target_link_libraries(integration_tests PUBLIC gtest_main LB3)
 
 add_test(integration_tests tests) 

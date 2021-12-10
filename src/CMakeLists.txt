@@ -1,4 +1,4 @@
-add_library(LightPuzzle 
+add_library(LB3 
     model/Direction.cpp 
     model/Arena.cpp 
     view/GameSession.cpp 
@@ -6,7 +6,7 @@ add_library(LightPuzzle
     view/GameRenderer.cpp 
 )
 
-target_include_directories(LightPuzzle PUBLIC
+target_include_directories(LB3 PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/model/
     ${CMAKE_CURRENT_SOURCE_DIR}/view/
     ${CMAKE_CURRENT_SOURCE_DIR}/util/
@@ -14,7 +14,9 @@ target_include_directories(LightPuzzle PUBLIC
 
 find_package(Curses REQUIRED)
 
-target_link_libraries (LightPuzzle ${CURSES_LIBRARIES})
+target_link_libraries (LB3 ${CURSES_LIBRARIES})
 
 add_executable(main main.cpp)
-target_link_libraries(main LightPuzzle)
+target_link_libraries(main LB3)
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/main 
+        DESTINATION ${CMAKE_BINARY_DIR}/bin)

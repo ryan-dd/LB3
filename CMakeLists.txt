@@ -1,15 +1,15 @@
 cmake_minimum_required (VERSION 3.11)
 set(CMAKE_CXX_STANDARD 20)
 
-project(LightPuzzle)
+project(LB3)
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-set(CMAKE_BUILD_TYPE "Debug")
-# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 add_subdirectory(src)
-enable_testing()
-add_subdirectory(test)
 
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(test)
+endif()

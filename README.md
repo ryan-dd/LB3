@@ -1,9 +1,11 @@
-# light-puzzle
-A game involving redirecting light to solve puzzles.
+# LB3 - Laser Blast 3000
 
+A two-player laser battle game.
 ## Requires
 
-Ncurses
+Curses
+
+C++20
 ## Build
 
 `mkdir build`
@@ -12,4 +14,8 @@ Ncurses
 
 `cmake ..`
 
-`make -j`
+`make -j install`
+
+## Run
+
+./build/bin/main
