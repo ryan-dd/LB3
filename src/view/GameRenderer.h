@@ -16,6 +16,7 @@ private:
     // Player data
     std::unordered_map<ID, Vector2d> playerPositions;
     std::unordered_map<ID, char> playerSymbols;
+    std::unordered_map<ID, int> playerColor;
     std::unordered_map<ID, Vector2d> playerScorePositions;
 
     // Laser Data
@@ -32,7 +33,7 @@ private:
     void reRerenderArenaLocation(Vector2d location);
     void reRenderAllPlayers();
     void reRenderPlayer(ID playerID);
-
+    
     inline void renderChar(Vector2d location, char symbol)
     {
         mvwaddch(window, location.y, location.x, symbol);
@@ -45,22 +46,21 @@ private:
 
 public:
     GameRenderer(WINDOW* window);
-    void renderArena(const Arena& arena);
-    void renderSecondsLeft(int seconds);
-    
-    void renderPlayerFirstTime(ID playerID, Vector2d newPosition);
-    void renderPlayer(ID playerID, Vector2d newPosition);
-    void renderPlayerScore(ID playerID, int score);
+    void renderPlayerAppeared(ID playerID, Vector2d newPosition);
+    void renderPlayerMoved(ID playerID, Vector2d newPosition);
+    void renderPlayerShot(ID playerID);
+    void renderPlayerTeleported(ID playerID, Vector2d newPosition);
 
-    void renderLaserFirstTime(
+    void renderLaserAppeared(
         ID laserID, 
         Vector2d newPosition, 
         LaserOrientation orientation);
-    void renderLaser(ID laserID, Vector2d newPosition, LaserOrientation orientation);
-    void removeLaser(ID laserID);
+    void renderLaserMoved(ID laserID, Vector2d newPosition, LaserOrientation orientation);
+    void renderLaserRemoved(ID laserID);
+
+    void renderArena(const Arena& arena);
+    void renderSecondsLeft(int seconds);
+    void renderPlayerScore(ID playerID, int score);
 };
-
-
-
 
 #endif // GAMERENDERER_H

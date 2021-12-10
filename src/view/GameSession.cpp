@@ -9,6 +9,23 @@ GameSession::GameSession(int xMax, int yMax)
     noecho(); // Don't print typed characters
     curs_set(0); // Hide cursor
     keypad(mWindow, true); // Can use keyboard characters
+
+    if(!has_colors())
+    {
+        endwin();
+        printToSession("Your terminal doesn't support colors. Please switch to one that does");
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        exit(1);
+    }
+
+    start_color();
+	init_pair(0, COLOR_WHITE, COLOR_BLACK);
+	init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(2, COLOR_RED, COLOR_BLACK);
+    init_pair(3, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(4, COLOR_GREEN, COLOR_BLACK);
+	attron(COLOR_PAIR(0));
+	
     refresh();
     box(mWindow, 0, 0);
     
@@ -24,13 +41,15 @@ GameSession::~GameSession()
 
 void GameSession::initPlayerInputInfo()
 {
-    // Player 1 has default info
+    // Player 2 has default info
     playerTwoInfo.id = 1;
-    playerTwoInfo.up = 'w';
-    playerTwoInfo.down = 's';
-    playerTwoInfo.left = 'a';
-    playerTwoInfo.right = 'd';
-    playerTwoInfo.laser = 'z';
+
+    playerOneInfo.id = 0;
+    playerOneInfo.up = 'w';
+    playerOneInfo.down = 's';
+    playerOneInfo.left = 'a';
+    playerOneInfo.right = 'd';
+    playerOneInfo.laser = 'v';
 }
 
 void GameSession::updatePlayer(char input, PlayerInputInfo playerInfo)

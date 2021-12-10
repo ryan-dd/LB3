@@ -12,9 +12,9 @@ int main()
     GameSession session(width, height);
     session.printToSession("Welcome to Light Battle 3000!!! (Press any key to continue)");
     session.waitForUserInput();
-    session.printToSession("P1 - Arrow keys to move, space bar to shoot");
+    session.printToSession("P1 - w a s d to move, v to shoot.");
     session.waitForUserInput();
-    session.printToSession("P2 - w a s d to move, x to shoot.");
+    session.printToSession("P2 - Arrow keys to move, space bar to shoot");
     session.waitForUserInput();
     session.printToSession("Also, press \"q\" to quit. Hope you enjoy! ");
     session.waitForUserInput();

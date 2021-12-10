@@ -33,10 +33,7 @@ private:
     PlayerInputInfo playerOneInfo;
     PlayerInputInfo playerTwoInfo;
     void initPlayerInputInfo();
-
-
     void updatePlayer(char input, PlayerInputInfo playerInfo);
-
 public:
     GameSession(int height, int width);
     ~GameSession();

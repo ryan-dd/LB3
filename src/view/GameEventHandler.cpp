@@ -17,13 +17,13 @@ void GameEventHandler::start()
     renderer.renderArena(arena);
     renderer.renderPlayerScore(0, 0);
     renderer.renderPlayerScore(1, 0);
-    players.insert({0, Agent(arena.getMaxX()-2, arena.getMaxY()-2, Direction::LEFT)});
-    players.insert({1, Agent(1, 1, Direction::RIGHT)});
+    players.insert({0, Agent(1, 1, Direction::RIGHT)});
+    players.insert({1, Agent(arena.getMaxX()-2, arena.getMaxY()-2, Direction::LEFT)});
     playersScores.insert({0, 0});
     playersScores.insert({1, 0});
 
-    renderer.renderPlayerFirstTime(0, players.at(0).xy);
-    renderer.renderPlayerFirstTime(1, players.at(1).xy);
+    renderer.renderPlayerAppeared(0, players.at(0).xy);
+    renderer.renderPlayerAppeared(1, players.at(1).xy);
 }
 
 void GameEventHandler::step()
@@ -49,8 +49,9 @@ void GameEventHandler::updateLasers()
                 auto& otherPlayerScore = playersScores.at(1);
                 ++otherPlayerScore;
                 renderer.renderPlayerScore(1, otherPlayerScore);
-                renderer.removeLaser(itr->first);
+                renderer.renderLaserRemoved(itr->first);
                 itr = lasers.erase(itr);
+                renderer.renderPlayerShot(0);
                 continue;
             }
 
@@ -59,12 +60,13 @@ void GameEventHandler::updateLasers()
                 auto& otherPlayerScore = playersScores.at(0);
                 ++otherPlayerScore;
                 renderer.renderPlayerScore(0, otherPlayerScore);
-                renderer.removeLaser(itr->first);
+                renderer.renderLaserRemoved(itr->first);
                 itr = lasers.erase(itr);
+                renderer.renderPlayerShot(1);
                 continue;
             }
 
-            renderer.renderLaser(itr->first, 
+            renderer.renderLaserMoved(itr->first, 
                                  newLaserPosition,
                                  directionToLaserOrientation.at(laser.facingDirection));
             ++itr;
@@ -81,7 +83,7 @@ void GameEventHandler::updateLasers()
         }
         else
         {
-            renderer.removeLaser(itr->first);
+            renderer.renderLaserRemoved(itr->first);
             itr = lasers.erase(itr);
         }
     }
@@ -139,12 +141,12 @@ void GameEventHandler::movePlayer(int playerID, Direction direction)
     if(obstacleType == ObstacleType::NO_OBSTACLE)
     {
         player.xy = newPlayerPosition;
-        renderer.renderPlayer(playerID, player.xy);
+        renderer.renderPlayerMoved(playerID, player.xy);
     }
     else if(obstacleType == ObstacleType::TELEPORTER)
     {
         player.xy = arena.getRandomTeleporterLocation(newPlayerPosition);
-        renderer.renderPlayer(playerID, player.xy);
+        renderer.renderPlayerTeleported(playerID, player.xy);
     }
 }
 
@@ -173,7 +175,7 @@ void GameEventHandler::newLaser(int playerID)
         ++currentLaserID;
         lasers.emplace(currentLaserID, newLaser);
 
-        renderer.renderLaserFirstTime(
+        renderer.renderLaserAppeared(
             currentLaserID, 
             newLaserPosition,
             directionToLaserOrientation.at(direction));
