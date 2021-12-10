@@ -15,3 +15,13 @@ Vector2d toVector(Direction direction)
             return {0, 1};
     }
 }
+
+int toInt(Direction direction)
+{
+    return static_cast<int>(direction);
+}
+
+Direction toDirection(int input)
+{
+    return static_cast<Direction>(input);
+}

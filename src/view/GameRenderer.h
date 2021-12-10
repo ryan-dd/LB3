@@ -7,7 +7,7 @@
 #include "LaserOrientation.h"
 #include "Vector2d.h"
 #include "Arena.h"
-
+#include "Direction.h"
 class GameRenderer
 {
 private:
@@ -24,8 +24,24 @@ private:
         {LaserOrientation::VERTICAL, '|'},
         {LaserOrientation::HORIZONTAL, '-'}
     };
-    void reRenderPlayer(ID playerID);
+
+    // Arena Data
+    std::vector<std::vector<char>> arenaSymbols;
+    char getArenaSymbol(Vector2d input);
+
+    void reRerenderArenaLocation(Vector2d location);
     void reRenderAllPlayers();
+    void reRenderPlayer(ID playerID);
+
+    inline void renderChar(Vector2d location, char symbol)
+    {
+        mvwaddch(window, location.y, location.x, symbol);
+    }
+
+    inline void renderChar(int x, int y, char symbol)
+    {
+        mvwaddch(window, y, x, symbol);
+    }
 
 public:
     GameRenderer(WINDOW* window);
@@ -36,7 +52,10 @@ public:
     void renderPlayer(ID playerID, Vector2d newPosition);
     void renderPlayerScore(ID playerID, int score);
 
-    void renderLaserFirstTime(ID laserID, Vector2d newPosition, LaserOrientation orientation);
+    void renderLaserFirstTime(
+        ID laserID, 
+        Vector2d newPosition, 
+        LaserOrientation orientation);
     void renderLaser(ID laserID, Vector2d newPosition, LaserOrientation orientation);
     void removeLaser(ID laserID);
 };

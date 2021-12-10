@@ -1,9 +1,13 @@
 #include "Arena.h"
-#include <random>
+#include "Logger.h"
+#include "MirrorType.h"
 
 Arena::Arena(int xMax, int yMax):
     xMax(xMax),
-    yMax(yMax)
+    yMax(yMax),
+    xCoordinateGenerator(1, xMax-2),
+    yCoordinateGenerator(1, yMax-2),
+    boolGenerator(0, 1)
 {
     initializeData(xMax, yMax);
 }
@@ -30,7 +34,6 @@ ObstacleType Arena::at(Vector2d input) const
 
 void Arena::initializeData(int xMax, int yMax)
 {
-    // Initialize walls, map, and obstacles.
     data.resize(yMax);
     for(size_t i = 0; i < data.size(); ++i)
     {
@@ -47,21 +50,27 @@ void Arena::initializeData(int xMax, int yMax)
     }
 }
 
-void Arena::generateObstacles(int numObstacles)
+void Arena::generateObstacles(int numObstacles, ObstacleType type)
 {
-    int yMax = data.size();
-    int xMax = data.at(0).size();
-
-    // Generate obstacles
-    std::mt19937 xRng(std::random_device{}());
-    std::mt19937 yRng(std::random_device{}());
-    std::uniform_int_distribution<int> yDistribution(1, yMax-2);
-    std::uniform_int_distribution<int> xDistribution(1, xMax-2);
+    if(type == ObstacleType::NO_OBSTACLE || type == ObstacleType::WALL)
+    {
+        Logger::log("Arena::generateObstacles - Cannot generate obstacles of ObstacleType::NO_OBSTACLE or ObstacleType::WALL type");
+        return;
+    }
 
     for(int i = 0; i < numObstacles; ++i)
     {
-        auto x = xDistribution(xRng);
-        auto y = yDistribution(yRng);
-        data.at(y).at(x) = ObstacleType::OBSTACLE;
+        auto x = xCoordinateGenerator.getRandomInt();
+        auto y = yCoordinateGenerator.getRandomInt();
+        auto& currType = data.at(y).at(x);
+        
+        if(currType == ObstacleType::NO_OBSTACLE)
+        {
+            currType = type;
+        }
+        else
+        {
+            --i; // Another type was present, so try generating again.
+        }
     }
 }

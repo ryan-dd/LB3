@@ -4,6 +4,8 @@ add_library(LB3
     view/GameSession.cpp 
     view/GameEventHandler.cpp 
     view/GameRenderer.cpp 
+    util/Logger.cpp 
+    util/RandomIntGenerator.cpp 
 )
 
 target_include_directories(LB3 PUBLIC

@@ -4,11 +4,11 @@
 #include "GameRenderer.h"
 #include "Agent.h"
 #include "Arena.h"
+#include "MirrorType.h"
 
 #include <cstdint>
 #include <unordered_map>
 #include <utility>
-
 class GameEventHandler
 {
 private:
@@ -28,6 +28,7 @@ private:
     };
 
     void updateLasers();
+    Direction reflectLaser(Direction prevDirection, MirrorType mirrorType);
 public:
     GameEventHandler(GameRenderer& renderer, int xMax, int yMax);
     void start();
