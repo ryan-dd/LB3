@@ -24,8 +24,22 @@ void GameRenderer::renderPlayer(ID playerID, Vector2d newPosition)
 {
     auto& currPosition = playerPositions[playerID];
     mvwaddch(window, currPosition.y, currPosition.x, ' ');
-    mvwaddch(window, newPosition.y, newPosition.x, playerSymbols[playerID]);
     currPosition = newPosition;
+    reRenderAllPlayers();
+}
+
+void GameRenderer::reRenderPlayer(ID playerID)
+{
+    auto position = playerPositions.at(playerID);
+    mvwaddch(window, position.y, position.x, playerSymbols[playerID]);
+}
+
+void GameRenderer::reRenderAllPlayers()
+{
+    for(auto iter = playerPositions.begin(); iter != playerPositions.end(); ++iter)
+    {
+        reRenderPlayer(iter->first);
+    }
 }
 
 void GameRenderer::renderSecondsLeft(int seconds)
@@ -73,6 +87,7 @@ void GameRenderer::renderLaser(ID laserID, Vector2d newPosition, LaserOrientatio
     mvwaddch(window, currPosition.y, currPosition.x, ' ');
     mvwaddch(window, newPosition.y, newPosition.x, laserOrientationSymbol.at(orientation));
     currPosition = newPosition;
+    reRenderAllPlayers();
 }
 
 void GameRenderer::removeLaser(ID laserID)
@@ -80,4 +95,5 @@ void GameRenderer::removeLaser(ID laserID)
     const auto& laserPosition = lasers.at(laserID);
     mvwaddch(window, laserPosition.y, laserPosition.x, ' ');
     lasers.erase(laserID);
+    reRenderAllPlayers();
 }

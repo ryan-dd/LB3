@@ -24,6 +24,8 @@ private:
         {LaserOrientation::VERTICAL, '|'},
         {LaserOrientation::HORIZONTAL, '-'}
     };
+    void reRenderPlayer(ID playerID);
+    void reRenderAllPlayers();
 
 public:
     GameRenderer(WINDOW* window);
