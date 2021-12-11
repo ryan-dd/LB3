@@ -33,8 +33,7 @@ int main()
         parameters.emplace(
             playerIDsToBeControlled,
             agents,
-            arena,
-        );
+            arena);
     }
     catch(const std::exception& e)
     {

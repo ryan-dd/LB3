@@ -1,19 +1,23 @@
 add_library(LB3 
-    model/Direction.cpp 
-    model/Arena.cpp 
-    view/GameSession.cpp 
-    view/GameEventHandler.cpp 
-    view/GameRenderer.cpp 
-    view/GameStartParameters.cpp 
-    view/PlayerInputInfo.cpp 
+    GameSession.cpp 
+    logic/GameEventHandler.cpp 
+    rendering/GameRenderer.cpp 
+    data/GameStartParameters.cpp 
+    data/game/Direction.cpp 
+    data/game/Arena.cpp 
+    data/ui/PlayerInputInfo.cpp 
+    data/ui/Color.cpp 
     util/Logger.cpp 
     util/RandomIntGenerator.cpp 
     util/ArenaCoordinateGenerator.cpp 
 )
 
 target_include_directories(LB3 PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/model/
-    ${CMAKE_CURRENT_SOURCE_DIR}/view/
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/game
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/logic/
+    ${CMAKE_CURRENT_SOURCE_DIR}/rendering/
     ${CMAKE_CURRENT_SOURCE_DIR}/util/
 )
 

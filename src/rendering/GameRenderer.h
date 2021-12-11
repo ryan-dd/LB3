@@ -8,6 +8,8 @@
 #include "Vector2d.h"
 #include "Arena.h"
 #include "Direction.h"
+#include "Color.h"
+
 class GameRenderer
 {
 private:
@@ -17,7 +19,7 @@ private:
     // Player data
     std::unordered_map<ID, Vector2d> playerPositions;
     std::unordered_map<ID, char> playerSymbols;
-    std::unordered_map<ID, int> playerColor;
+    std::unordered_map<ID, LB3::Color> playerColor;
     std::unordered_map<ID, Vector2d> playerScorePositions;
 
     // Laser Data
@@ -44,6 +46,8 @@ private:
     {
         mvwaddch(window, y, x, symbol);
     }
+
+    void initializeData(int numberOfPlayers);
 
 public:
     GameRenderer(WINDOW* window, int numberPlayers);

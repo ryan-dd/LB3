@@ -1,5 +1,4 @@
 #include "GameEventHandler.h"
-#include "RandomIntGenerator.h"
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -11,7 +10,6 @@ GameEventHandler::GameEventHandler(
         renderer(renderer),
         arena(parameters.arena)
 {
-    RandomIntGenerator directionGenerator(0, 3);
     for (int playerID = 0; playerID < parameters.getNumberOfPlayers(); playerID++)
     {
         players.insert({playerID, parameters.agents.at(playerID)});

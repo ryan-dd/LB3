@@ -1,19 +1,24 @@
 #include "GameRenderer.h"
-
+#include "Color.h"
 #include <string>
 #include "Logger.h"
 
 GameRenderer::GameRenderer(WINDOW* window, int numberPlayers): 
     window(window)
 {
+    initializeData(numberPlayers);
+}
+
+void GameRenderer::initializeData(int numberOfPlayers)
+{
     int y, x;
     getmaxyx(window, y, x);
-    int xIncrement = (x-4)/(numberPlayers-1); // Allow room for last score
-    for (int i = 0; i < numberPlayers; i++)
+    int xIncrement = (x-4)/(numberOfPlayers-1);
+    for (int i = 0; i < numberOfPlayers; i++)
     {
         char playerSymbol = std::to_string(i + 1).at(0);
         playerSymbols.insert({i, playerSymbol});
-        playerColor.insert({i, 1});
+        playerColor.insert({i, LB3::Color::PLAYER_DEFAULT});
         playerScorePositions.insert({i, Vector2d(i*xIncrement, y-1)});
     }   
 }
@@ -27,7 +32,7 @@ void GameRenderer::renderPlayerAppeared(ID playerID, Vector2d newPosition)
 void GameRenderer::renderPlayerMoved(ID playerID, Vector2d newPosition)
 {
     auto& currPosition = playerPositions.at(playerID);
-    playerColor.at(playerID) = 1; // Move color
+    playerColor.at(playerID) = LB3::Color::PLAYER_DEFAULT;
     renderArenaLocation(currPosition);
     currPosition = newPosition;
     renderAllPlayers();
@@ -35,7 +40,7 @@ void GameRenderer::renderPlayerMoved(ID playerID, Vector2d newPosition)
 
 void GameRenderer::renderPlayerShot(ID playerID)
 {   
-    playerColor.at(playerID) = 2; // Shot color
+    playerColor.at(playerID) = LB3::Color::PLAYER_SHOT;
     renderPlayer(playerID);
 }
 
@@ -44,7 +49,7 @@ void GameRenderer::renderPlayerTeleported(ID playerID, Vector2d newPosition)
     auto& currPosition = playerPositions.at(playerID);
     renderArenaLocation(currPosition);
     currPosition = newPosition;
-    playerColor.at(playerID) = 3; // Teleport color
+    playerColor.at(playerID) = LB3::Color::PLAYER_TELEPORTED;
     renderPlayer(playerID);
 }
 
@@ -85,9 +90,9 @@ void GameRenderer::renderLaserRemoved(ID laserID)
 
 void GameRenderer::renderPlayer(ID playerID)
 {
-    wattron(window, COLOR_PAIR(playerColor.at(playerID)));
+    wattron(window, COLOR_PAIR(toInt(playerColor.at(playerID))));
     renderChar(playerPositions.at(playerID), playerSymbols.at(playerID));
-    wattroff(window, COLOR_PAIR(playerColor.at(playerID)));
+    wattroff(window, COLOR_PAIR(toInt(playerColor.at(playerID))));
 }
 
 void GameRenderer::renderAllPlayers()
@@ -104,9 +109,9 @@ void GameRenderer::renderPlayerScore(ID playerID, int score)
     mvwprintw(window, scorePosition.y, scorePosition.x, clearString.c_str());
 
     auto scoreString = std::to_string(score);
-    wattron(window, COLOR_PAIR(4));
+    wattron(window, COLOR_PAIR(toInt(LB3::Color::DISPLAY_DEFAULT)));
     mvwprintw(window, scorePosition.y, scorePosition.x, scoreString.c_str());
-    wattroff(window, COLOR_PAIR(4));
+    wattroff(window, COLOR_PAIR(toInt(LB3::Color::DISPLAY_DEFAULT)));
 }
 
 void GameRenderer::renderArenaLocation(Vector2d location)
@@ -121,10 +126,10 @@ void GameRenderer::renderSecondsLeft(int seconds)
     int printY = 0;
     int printX = x/2;
     auto secondsLeftStr = std::to_string(seconds);
-    wattron(window, COLOR_PAIR(4));
+    wattron(window, COLOR_PAIR(toInt(LB3::Color::DISPLAY_DEFAULT)));
     mvwprintw(window, printY, printX, clearString.c_str());
     mvwprintw(window, printY, printX, secondsLeftStr.c_str());
-    wattroff(window, COLOR_PAIR(4));
+    wattroff(window, COLOR_PAIR(toInt(LB3::Color::DISPLAY_DEFAULT)));
 }
 
 void GameRenderer::renderArena(const Arena& arena)
