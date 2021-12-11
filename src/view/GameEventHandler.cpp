@@ -21,10 +21,11 @@ GameEventHandler::GameEventHandler(
 void GameEventHandler::start()
 {   
     renderer.renderArena(arena);
-    renderer.renderPlayerScore(0, 0);
-    renderer.renderPlayerScore(1, 0);
-    renderer.renderPlayerAppeared(0, players.at(0).xy);
-    renderer.renderPlayerAppeared(1, players.at(1).xy);
+    for(int playerID = 0; playerID < players.size(); ++ playerID)
+    {
+        renderer.renderPlayerScore(playerID, 0);
+        renderer.renderPlayerAppeared(playerID, players.at(playerID).xy);
+    }
 }
 
 void GameEventHandler::step()

@@ -18,7 +18,8 @@ int main()
     arena.generateObstacles(ObstacleType::TELEPORTER, 40);
     Agent playerOne(1, 1, Direction::RIGHT);
     Agent playerTwo(arena.getMaxX() - 2, arena.getMaxY() - 2, Direction::LEFT);
-    std::vector<Agent> agents{playerOne, playerTwo};
+    Agent playerThree(10, 10, Direction::LEFT);
+    std::vector<Agent> agents{playerOne, playerTwo, playerThree};
     std::unordered_set<ID> playerIDsToBeControlled{0, 1};
 
     GameStartParameters parameters(
@@ -28,14 +29,14 @@ int main()
     );
 
     GameSession session(parameters);
-    
+
     session.printToSession("Welcome to Light Battle 3000!!! (Press any key to continue)");
     session.waitForUserInput();
-    session.printToSession("P1 - w a s d to move, v to shoot.");
+    session.printToSession("P1 - Arrow keys to move, space bar to shoot");
     session.waitForUserInput();
-    session.printToSession("P2 - Arrow keys to move, space bar to shoot");
+    session.printToSession("P2 - w a s d to move, v to shoot.");
     session.waitForUserInput();
-    session.printToSession("Also, press \"q\" to quit. Hope you enjoy! ");
+    session.printToSession("Press \"q\" to quit. Hope you enjoy! ");
     session.waitForUserInput();
     session.clear();
     
