@@ -14,5 +14,6 @@ enum class Direction
 
 Vector2d toVector(Direction direction);
 int toInt(Direction direction);
+Direction toDirection(int input);
 
 #endif

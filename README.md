@@ -5,7 +5,7 @@ A two-player laser battle game played in the terminal.
 
 Curses
 
-C++14
+C++17
 
 Terminal that supports colors
 ## Build

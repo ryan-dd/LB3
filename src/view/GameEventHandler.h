@@ -2,6 +2,7 @@
 #define GAMEEVENTHANDLER_H
 
 #include "GameRenderer.h"
+#include "GameStartParameters.h"
 #include "Agent.h"
 #include "Arena.h"
 #include "MirrorType.h"
@@ -31,7 +32,8 @@ private:
     void updateLasers();
     Direction reflectLaser(Direction prevDirection, MirrorType mirrorType);
 public:
-    GameEventHandler(GameRenderer& renderer, int xMax, int yMax);
+    GameEventHandler(GameRenderer& renderer, 
+                     const GameStartParameters parameters);
     void start();
     void step();
     void movePlayer(int playerID, Direction direction);

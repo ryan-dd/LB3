@@ -4,8 +4,11 @@ add_library(LB3
     view/GameSession.cpp 
     view/GameEventHandler.cpp 
     view/GameRenderer.cpp 
+    view/GameStartParameters.cpp 
+    view/PlayerInputInfo.cpp 
     util/Logger.cpp 
     util/RandomIntGenerator.cpp 
+    util/ArenaCoordinateGenerator.cpp 
 )
 
 target_include_directories(LB3 PUBLIC

@@ -3,19 +3,19 @@
 #include <string>
 #include "Logger.h"
 
-GameRenderer::GameRenderer(WINDOW* window): 
+GameRenderer::GameRenderer(WINDOW* window, int numberPlayers): 
     window(window)
 {
-    playerSymbols.insert({0, '1'});
-    playerSymbols.insert({1, '2'});
-
-    playerColor.insert({0, 1});
-    playerColor.insert({1, 1});
-
     int y, x;
     getmaxyx(window, y, x);
-    playerScorePositions.insert({0, Vector2d(0, y-1)});
-    playerScorePositions.insert({1, Vector2d(x-4, y-1)});
+    int xIncrement = (x-4)/(numberPlayers-1); // Allow room for last score
+    for (int i = 0; i < numberPlayers; i++)
+    {
+        char playerSymbol = std::to_string(i + 1).at(0);
+        playerSymbols.insert({i, playerSymbol});
+        playerColor.insert({i, 1});
+        playerScorePositions.insert({i, Vector2d(i*xIncrement, y-1)});
+    }   
 }
 
 void GameRenderer::renderPlayerAppeared(ID playerID, Vector2d newPosition)
@@ -118,7 +118,7 @@ void GameRenderer::renderSecondsLeft(int seconds)
 {
     int y, x;
     getmaxyx(window, y, x);
-    int printY = y-1;
+    int printY = 0;
     int printX = x/2;
     auto secondsLeftStr = std::to_string(seconds);
     wattron(window, COLOR_PAIR(4));

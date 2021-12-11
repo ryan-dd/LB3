@@ -8,7 +8,7 @@ Arena::Arena(int xMax, int yMax):
     xCoordinateGenerator(1, xMax-2),
     yCoordinateGenerator(1, yMax-2),
     boolGenerator(0, 1),
-    randomTeleporterIndexGenerator(nullptr)
+    randomTeleporterIndexGenerator(std::nullopt)
 {
     initializeData(xMax, yMax);
 }
@@ -33,10 +33,10 @@ ObstacleType Arena::at(Vector2d input) const
     return data.at(input.y).at(input.x);
 }
 
-Vector2d Arena::getRandomTeleporterLocation(Vector2d currTeleporterPosition)
+Vector2d Arena::getRandomTeleporterLocation(Vector2d currTeleporterPosition) const
 {
-    if(randomTeleporterIndexGenerator == nullptr ||
-       teleporters.size() == 1)
+    if(!randomTeleporterIndexGenerator.has_value() ||
+        teleporters.size() < 1)
     {
         throw std::runtime_error("Arena::getRandomTeleporterLocation - Method called when there were only 0 or 1 teleporters present");
     }
@@ -73,7 +73,7 @@ void Arena::initializeData(int xMax, int yMax)
     }
 }
 
-void Arena::generateObstacles(int numObstacles, ObstacleType type)
+void Arena::generateObstacles(ObstacleType type, int numObstacles)
 {
     if(numObstacles < 1)
     {
@@ -121,6 +121,6 @@ void Arena::generateObstacles(int numObstacles, ObstacleType type)
 
     if(isTeleporter)
     {
-        randomTeleporterIndexGenerator = std::make_unique<RandomIntGenerator>(0, teleporters.size()-1);
+        randomTeleporterIndexGenerator.emplace(0, teleporters.size()-1);
     }
 }

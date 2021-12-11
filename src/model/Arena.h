@@ -4,12 +4,12 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <optional>
 
 #include "ObstacleType.h"
 #include "Vector2d.h"
 #include "MirrorType.h"
 #include "RandomIntGenerator.h"
-
 
 class Arena
 {
@@ -22,16 +22,16 @@ private:
     RandomIntGenerator xCoordinateGenerator;
     RandomIntGenerator yCoordinateGenerator;
     RandomIntGenerator boolGenerator;
-    std::unique_ptr<RandomIntGenerator> randomTeleporterIndexGenerator;
+    mutable std::optional<RandomIntGenerator> randomTeleporterIndexGenerator;
 
 public:
     Arena(int xMax, int yMax);
-    void generateObstacles(int numObstacles, ObstacleType type);
+    void generateObstacles(ObstacleType type, int numObstacles);
     ObstacleType at(int x, int y) const;
     ObstacleType at(Vector2d input) const;
     int getMaxX() const;
     int getMaxY() const;
-    Vector2d getRandomTeleporterLocation(Vector2d currTeleporterPosition);
+    Vector2d getRandomTeleporterLocation(Vector2d currTeleporterPosition) const;
 };
 
 #endif // ARENA_H

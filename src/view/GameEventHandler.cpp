@@ -1,15 +1,21 @@
 #include "GameEventHandler.h"
+#include "RandomIntGenerator.h"
 #include <iostream>
 #include <fstream>
 #include <Logger.h>
 
-GameEventHandler::GameEventHandler(GameRenderer& renderer, int xMax, int yMax):
-    renderer(renderer),
-    arena(xMax, yMax)
+GameEventHandler::GameEventHandler(
+    GameRenderer& renderer, 
+    GameStartParameters parameters):
+        renderer(renderer),
+        arena(parameters.arena)
 {
-    arena.generateObstacles(40, ObstacleType::FORWARD_MIRROR);
-    arena.generateObstacles(40, ObstacleType::BACK_MIRROR);
-    arena.generateObstacles(40, ObstacleType::TELEPORTER);
+    RandomIntGenerator directionGenerator(0, 3);
+    for (int playerID = 0; playerID < parameters.getNumberOfPlayers(); playerID++)
+    {
+        players.insert({playerID, parameters.agents.at(playerID)});
+        playersScores.insert({playerID, 0});
+    }
 }
 
 void GameEventHandler::start()
@@ -17,11 +23,6 @@ void GameEventHandler::start()
     renderer.renderArena(arena);
     renderer.renderPlayerScore(0, 0);
     renderer.renderPlayerScore(1, 0);
-    players.insert({0, Agent(1, 1, Direction::RIGHT)});
-    players.insert({1, Agent(arena.getMaxX()-2, arena.getMaxY()-2, Direction::LEFT)});
-    playersScores.insert({0, 0});
-    playersScores.insert({1, 0});
-
     renderer.renderPlayerAppeared(0, players.at(0).xy);
     renderer.renderPlayerAppeared(1, players.at(1).xy);
 }

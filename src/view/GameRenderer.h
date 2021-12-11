@@ -46,7 +46,7 @@ private:
     }
 
 public:
-    GameRenderer(WINDOW* window);
+    GameRenderer(WINDOW* window, int numberPlayers);
     void renderPlayerAppeared(ID playerID, Vector2d newPosition);
     void renderPlayerMoved(ID playerID, Vector2d newPosition);
     void renderPlayerShot(ID playerID);

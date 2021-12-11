@@ -1,4 +1,5 @@
 #include "Direction.h"
+#include <stdexcept>
 
 Vector2d toVector(Direction direction)
 {
@@ -23,5 +24,10 @@ int toInt(Direction direction)
 
 Direction toDirection(int input)
 {
+    if(input < 0 || input > 3)
+    {
+        throw std::invalid_argument("toDirection - input was not between 0 and 3");
+    }
+    
     return static_cast<Direction>(input);
 }
