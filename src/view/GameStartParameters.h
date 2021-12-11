@@ -25,6 +25,12 @@ struct GameStartParameters
     const std::chrono::seconds gameDuration;
 
     int getNumberOfPlayers() const;
+
+    private:
+        void checkControllingPlayerIDsValid();
+        void checkAgentsValid();
+        void checkGameDurationValid();
+        // Arena handles its own validation
 };
 
 #endif // GAMESTARTPARAMETERS_H

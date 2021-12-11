@@ -2,6 +2,7 @@
 #include "RandomIntGenerator.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include <Logger.h>
 
 GameEventHandler::GameEventHandler(
@@ -195,7 +196,22 @@ Direction GameEventHandler::reflectLaser(Direction prevDirection, MirrorType mir
     }
 }
 
-std::pair<int, int> GameEventHandler::getFinalScores()
+std::vector<ID> GameEventHandler::getWinners()
 {
-    return {playersScores.at(0), playersScores.at(1)};
+    int currHighestScore = 0;
+    std::vector<ID> winningPlayers;
+    for(const auto& [playerID, score]: playersScores)
+    {
+        if(score > currHighestScore)
+        {
+            winningPlayers.clear();
+            winningPlayers.push_back(playerID);
+        }
+        else if(score == currHighestScore)
+        {
+            winningPlayers.push_back(playerID);
+        }
+    }
+    std::sort(winningPlayers.begin(), winningPlayers.end());
+    return winningPlayers;
 }

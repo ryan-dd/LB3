@@ -1,9 +1,12 @@
-#include <iostream>
-#include <ncurses.h>
 #include "GameSession.h"
 #include "GameStartParameters.h"
-#include <thread>
 #include "Logger.h"
+
+#include <ncurses.h>
+
+#include <thread>
+#include <iostream>
+#include <optional>
 
 int main()
 {
@@ -16,27 +19,44 @@ int main()
     arena.generateObstacles(ObstacleType::FORWARD_MIRROR, 40);
     arena.generateObstacles(ObstacleType::BACK_MIRROR, 40);
     arena.generateObstacles(ObstacleType::TELEPORTER, 40);
-    Agent playerOne(1, 1, Direction::RIGHT);
-    Agent playerTwo(arena.getMaxX() - 2, arena.getMaxY() - 2, Direction::LEFT);
-    Agent playerThree(10, 10, Direction::LEFT);
-    std::vector<Agent> agents{playerOne, playerTwo, playerThree};
+    
+    std::vector<Agent> agents;
+    agents.emplace_back(1, 1, Direction::RIGHT);
+    agents.emplace_back(arena.getMaxX() - 2, arena.getMaxY() - 2, Direction::LEFT);
+    agents.emplace_back(10, 10, Direction::LEFT);
     std::unordered_set<ID> playerIDsToBeControlled{0, 1};
 
-    GameStartParameters parameters(
-        playerIDsToBeControlled,
-        agents,
-        arena
-    );
-
-    GameSession session(parameters);
-
+    std::optional<GameStartParameters> parameters;
+    
+    try
+    {
+        parameters.emplace(
+            playerIDsToBeControlled,
+            agents,
+            arena,
+        );
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error occurred while initializing: " << '\n' << e.what() << '\n';
+        Logger::log(e.what());
+        return 0;
+    }
+    
+    GameSession session(*parameters);
     session.printToSession("Welcome to Light Battle 3000!!! (Press any key to continue)");
     session.waitForUserInput();
-    session.printToSession("P1 - Arrow keys to move, space bar to shoot");
+    session.printToSession("Shoot your opponent(s) to increase your score!");
     session.waitForUserInput();
-    session.printToSession("P2 - w a s d to move, v to shoot.");
-    session.waitForUserInput();
-    session.printToSession("Press \"q\" to quit. Hope you enjoy! ");
+
+    session.queueToPrintToSession("P1 - Arrow keys to move, space bar to shoot");
+    session.queueToPrintToSession("");
+    session.queueToPrintToSession("P2 - w a s d to move, v to shoot.");
+    session.queueToPrintToSession("");
+    session.queueToPrintToSession("\'/\' and \'\\\' are mirrors, and \'*\' are teleporters");
+    session.queueToPrintToSession("");
+    session.queueToPrintToSession("Press \"q\" to quit. Hope you enjoy! ");
+    session.printQueuedMessages();
     session.waitForUserInput();
     session.clear();
     

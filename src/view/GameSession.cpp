@@ -2,6 +2,7 @@
 #include "GameStartParameters.h"
 #include "GameColor.h"
 #include <thread>
+#include <string>
 
 GameSession::GameSession(const GameStartParameters parameters):
     gameDuration(parameters.gameDuration)
@@ -75,25 +76,27 @@ void GameSession::start()
     }
 
     nodelay(window, false);
-    
-    this->clear();
-    auto scores = eventHandler->getFinalScores();
-    auto p1score = scores.first;
-    auto p2score = scores.second;
-    if(p1score > p2score)
-    {
-        printToSession("Player 1 wins!");
-    }
-    else if(p2score > p1score)
-    {
-        printToSession("Player 2 wins!");
-    }
-    else
-    {
-        printToSession("Tie!");
-    }
+    displayResults();
     std::this_thread::sleep_for(std::chrono::seconds(1));
     waitForUserInput();
+}
+
+void GameSession::displayResults()
+{
+    this->clear();
+    auto winnerIDs = eventHandler->getWinners();
+    if(winnerIDs.size() == 1)
+    {
+        printToSession("Player " + std::to_string(winnerIDs.at(0)) + " wins!");
+        return;
+    }
+
+    queueToPrintToSession("Winners:");
+    for(auto winnerID: winnerIDs)
+    {
+        queueToPrintToSession("Player " + std::to_string(winnerID+1));
+    }
+    printQueuedMessages();
 }
 
 void GameSession::updateState()
@@ -140,6 +143,31 @@ void GameSession::printToSession(const std::string& input)
     getmaxyx(window, yMax, xMax);
     mvwprintw(window, yMax/2, xMax/2 - input.size()/2, input.c_str());
     wrefresh(window);
+}
+
+void GameSession::queueToPrintToSession(const std::string& input)
+{
+    toPrint.push_back(input);
+}
+
+void GameSession::printQueuedMessages()
+{
+    werase(window);
+    wrefresh(window);
+    box(window, 0, 0);
+    int yMax;
+    int xMax;
+    getmaxyx(window, yMax, xMax);
+    int startY = yMax/2 - toPrint.size()/2;
+
+    for(const auto& message: toPrint)
+    {
+        mvwprintw(window, startY, xMax/2 - message.size()/2, message.c_str());
+        ++startY;
+    }
+
+    wrefresh(window);
+    toPrint.clear();
 }
 
 void GameSession::clear()

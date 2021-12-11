@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <unordered_map>
 #include <utility>
+#include <vector>
+
 class GameEventHandler
 {
 private:
@@ -38,7 +40,7 @@ public:
     void step();
     void movePlayer(int playerID, Direction direction);
     void newLaser(int playerID);
-    std::pair<int, int> getFinalScores();
+    std::vector<ID> getWinners();
 };
 
 #endif // GAMEEVENTHANDLER_H
