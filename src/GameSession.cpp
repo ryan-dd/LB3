@@ -88,7 +88,7 @@ void GameSession::displayResults()
     auto winnerIDs = eventHandler->getWinners();
     if(winnerIDs.size() == 1)
     {
-        printToSession("Player " + std::to_string(winnerIDs.at(0)) + " wins!");
+        printToSession("Player " + std::to_string(winnerIDs.at(0) + 1) + " wins!");
         return;
     }
 

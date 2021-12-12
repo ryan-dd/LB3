@@ -11,14 +11,14 @@
 struct GameStartParameters
 {
     GameStartParameters(const std::unordered_set<ID> playerIDsToBeControlled,
-                        const std::vector<Agent> agents,
+                        const std::vector<Agent> players,
                         const Arena arena,
                         std::chrono::seconds gameDuration = std::chrono::seconds(60));                 
     
     // IDs of Players that will be controlled by this client
     const std::unordered_set<ID> playerIDsToBeControlled;
-    // Starting positions of Players. The number of players and playerIDs (based on indices) are determined from this data
-    const std::vector<Agent> agents;
+    // Starting data for players. The playerIDs are based on indices of this data
+    const std::vector<Agent> players;
     // The arena the game will be played on
     const Arena arena;
     // Seconds to play the game
@@ -28,7 +28,7 @@ struct GameStartParameters
 
     private:
         void checkControllingPlayerIDsValid();
-        void checkAgentsValid();
+        void checkPlayersValid();
         void checkGameDurationValid();
         // Arena handles its own validation
 };

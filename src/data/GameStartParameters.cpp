@@ -5,16 +5,16 @@
 
 GameStartParameters::GameStartParameters(
     const std::unordered_set<ID> playerIDsToBeControlled,
-    const std::vector<Agent> agents,
+    const std::vector<Agent> players,
     const Arena arena,
     const std::chrono::seconds gameDuration):
         playerIDsToBeControlled(playerIDsToBeControlled),
-        agents(agents),
+        players(players),
         arena(arena),
         gameDuration(gameDuration)
 {
     checkGameDurationValid();
-    checkAgentsValid();
+    checkPlayersValid();
     checkControllingPlayerIDsValid();
 }
 
@@ -26,31 +26,31 @@ void GameStartParameters::checkGameDurationValid()
     }
 }
 
-void GameStartParameters::checkAgentsValid()
+void GameStartParameters::checkPlayersValid()
 {
-    if(agents.size() < 2)
+    if(players.size() < 2)
     {
         std::stringstream errorMessage;
-        errorMessage << "GameStartParameters::checkAgentsValid - at least two agents must be in the game, but only " << agents.size() << " added";
+        errorMessage << "GameStartParameters::checkPlayersValid - at least two players must be in the game, but only " << players.size() << " added";
         throw std::invalid_argument(errorMessage.str());
     }
-    if(agents.size() > 8)
+    if(players.size() > 8)
     {
         std::stringstream errorMessage;
-        errorMessage << "GameStartParameters::checkAgentsValid - Only up to 8 players are currently supported. ";
-        errorMessage << "There were " << agents.size() << " added";
+        errorMessage << "GameStartParameters::checkPlayersValid - Only up to 8 players are currently supported. ";
+        errorMessage << "There were " << players.size() << " added";
         throw std::invalid_argument(errorMessage.str());
     }
-    else if(agents.size() < playerIDsToBeControlled.size())
+    else if(players.size() < playerIDsToBeControlled.size())
     {
         std::stringstream errorMessage;
-        errorMessage << "GameStartParameters::checkAgentsValid - number of agents was less than playerIDs to be controlled. ";
-        errorMessage << "Number of player starting positions: " << agents.size();
+        errorMessage << "GameStartParameters::checkPlayersValid - number of players was less than playerIDs to be controlled. ";
+        errorMessage << "Number of player starting positions: " << players.size();
         errorMessage << " Number of players to be controlled: " << playerIDsToBeControlled.size();
         throw std::invalid_argument(errorMessage.str());
     }
 
-    for(const auto& agent: agents)
+    for(const auto& agent: players)
     {
         ObstacleType obstacleType;
         
@@ -74,7 +74,7 @@ void GameStartParameters::checkControllingPlayerIDsValid()
 {
     if(playerIDsToBeControlled.size() == 0)
     {
-        throw std::invalid_argument("GameStartParameters::checkControllingPlayerIDsValid - No agents specified to be controlled");
+        throw std::invalid_argument("GameStartParameters::checkControllingPlayerIDsValid - No players specified to be controlled");
     }
     else if(playerIDsToBeControlled.size() > 2)
     {
@@ -86,19 +86,19 @@ void GameStartParameters::checkControllingPlayerIDsValid()
 
     for(const auto& playerID: playerIDsToBeControlled)
     {
-        if(playerID >= agents.size())
+        if(playerID >= players.size())
         {
             std::stringstream errorMessage;
             errorMessage << "GameStartParameters::checkControllingPlayerIDsValid - requested controlled playerID was outside of valid playerIDs. ";
             errorMessage << "PlayerID: ";
             errorMessage << playerID;
             errorMessage << " Number of player starting positions: ";
-            errorMessage << agents.size();
+            errorMessage << players.size();
         }
     }
 }
 
 int GameStartParameters::getNumberOfPlayers() const
 {
-    return agents.size();
+    return players.size();
 }

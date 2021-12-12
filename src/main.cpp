@@ -12,8 +12,8 @@ int main()
 {
     Logger::initialize();
     
-    int gameHeight = 20;
-    int gameWidth = 70;
+    int gameHeight = 15;
+    int gameWidth = 60;
 
     Arena arena(gameWidth, gameHeight);
     arena.generateObstacles(ObstacleType::FORWARD_MIRROR, 40);
@@ -23,7 +23,6 @@ int main()
     std::vector<Agent> agents;
     agents.emplace_back(1, 1, Direction::RIGHT);
     agents.emplace_back(arena.getMaxX() - 2, arena.getMaxY() - 2, Direction::LEFT);
-    agents.emplace_back(10, 10, Direction::LEFT);
     std::unordered_set<ID> playerIDsToBeControlled{0, 1};
 
     std::optional<GameStartParameters> parameters;

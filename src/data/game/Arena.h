@@ -19,6 +19,7 @@ private:
     void initializeData(int xMax, int yMax);
     int xMax;
     int yMax;
+
     RandomIntGenerator xCoordinateGenerator;
     RandomIntGenerator yCoordinateGenerator;
     RandomIntGenerator boolGenerator;

@@ -1,7 +1,9 @@
 #include "GameRenderer.h"
 #include "Color.h"
-#include <string>
 #include "Logger.h"
+
+#include <string>
+#include <sstream>
 
 GameRenderer::GameRenderer(WINDOW* window, int numberPlayers): 
     window(window)
@@ -13,7 +15,7 @@ void GameRenderer::initializeData(int numberOfPlayers)
 {
     int y, x;
     getmaxyx(window, y, x);
-    int xIncrement = (x-4)/(numberOfPlayers-1);
+    int xIncrement = (x-5)/(numberOfPlayers-1);
     for (int i = 0; i < numberOfPlayers; i++)
     {
         char playerSymbol = std::to_string(i + 1).at(0);
@@ -107,10 +109,10 @@ void GameRenderer::renderPlayerScore(ID playerID, int score)
 {
     const auto& scorePosition = playerScorePositions.at(playerID);
     mvwprintw(window, scorePosition.y, scorePosition.x, clearString.c_str());
-
-    auto scoreString = std::to_string(score);
+    std::stringstream displayString;
+    displayString << playerID+1 << ":" << score;
     wattron(window, COLOR_PAIR(toInt(LB3::Color::DISPLAY_DEFAULT)));
-    mvwprintw(window, scorePosition.y, scorePosition.x, scoreString.c_str());
+    mvwprintw(window, scorePosition.y, scorePosition.x, displayString.str().c_str());
     wattroff(window, COLOR_PAIR(toInt(LB3::Color::DISPLAY_DEFAULT)));
 }
 
@@ -178,4 +180,14 @@ void GameRenderer::renderArena(const Arena& arena)
 char GameRenderer::getArenaSymbol(Vector2d input)
 {
     return arenaSymbols.at(input.y).at(input.x);
+}
+
+void GameRenderer::renderChar(Vector2d location, char symbol)
+{
+    renderChar(location.x, location.y, symbol);
+}
+
+void GameRenderer::renderChar(int x, int y, char symbol)
+{
+    mvwaddch(window, y, x, symbol);
 }

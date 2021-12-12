@@ -32,23 +32,13 @@ private:
     // Arena Data
     std::vector<std::vector<char>> arenaSymbols;
     char getArenaSymbol(Vector2d input);
-
     void renderArenaLocation(Vector2d location);
     void renderAllPlayers();
     void renderPlayer(ID playerID);
-    
-    inline void renderChar(Vector2d location, char symbol)
-    {
-        mvwaddch(window, location.y, location.x, symbol);
-    }
-
-    inline void renderChar(int x, int y, char symbol)
-    {
-        mvwaddch(window, y, x, symbol);
-    }
+    void renderChar(Vector2d location, char symbol);
+    void renderChar(int x, int y, char symbol);
 
     void initializeData(int numberOfPlayers);
-
 public:
     GameRenderer(WINDOW* window, int numberPlayers);
     void renderPlayerAppeared(ID playerID, Vector2d newPosition);
