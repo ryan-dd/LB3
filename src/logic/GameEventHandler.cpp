@@ -217,7 +217,7 @@ Direction GameEventHandler::reflectLaser(Direction prevDirection, MirrorType mir
 
 std::vector<ID> GameEventHandler::getWinners()
 {
-    int currHighestScore = 0;
+    int currHighestScore = -10000;
     std::vector<ID> winningPlayers;
     for(const auto& [playerID, score]: playersScores)
     {
@@ -225,6 +225,7 @@ std::vector<ID> GameEventHandler::getWinners()
         {
             winningPlayers.clear();
             winningPlayers.push_back(playerID);
+            currHighestScore = score;
         }
         else if(score == currHighestScore)
         {

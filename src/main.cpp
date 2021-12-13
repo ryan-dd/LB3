@@ -19,10 +19,11 @@ int main()
     arena.generateObstacles(ObstacleType::FORWARD_MIRROR, 40);
     arena.generateObstacles(ObstacleType::BACK_MIRROR, 40);
     arena.generateObstacles(ObstacleType::TELEPORTER, 40);
+
+    std::vector<Agent> players;
+    players.emplace_back(1, 1, Direction::RIGHT);
+    players.emplace_back(arena.getMaxX() - 2, arena.getMaxY() - 2, Direction::LEFT);
     
-    std::vector<Agent> agents;
-    agents.emplace_back(1, 1, Direction::RIGHT);
-    agents.emplace_back(arena.getMaxX() - 2, arena.getMaxY() - 2, Direction::LEFT);
     std::unordered_set<ID> playerIDsToBeControlled{0, 1};
 
     std::optional<GameStartParameters> parameters;
@@ -31,7 +32,7 @@ int main()
     {
         parameters.emplace(
             playerIDsToBeControlled,
-            agents,
+            players,
             arena);
     }
     catch(const std::exception& e)

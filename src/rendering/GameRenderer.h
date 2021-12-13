@@ -32,13 +32,14 @@ private:
     // Arena Data
     std::vector<std::vector<char>> arenaSymbols;
     char getArenaSymbol(Vector2d input);
+
+    void initializeData(int numberOfPlayers);
     void renderArenaLocation(Vector2d location);
     void renderAllPlayers();
     void renderPlayer(ID playerID);
     void renderChar(Vector2d location, char symbol);
     void renderChar(int x, int y, char symbol);
 
-    void initializeData(int numberOfPlayers);
 public:
     GameRenderer(WINDOW* window, int numberPlayers);
     void renderPlayerAppeared(ID playerID, Vector2d newPosition);
@@ -46,10 +47,7 @@ public:
     void renderPlayerShot(ID playerID);
     void renderPlayerTeleported(ID playerID, Vector2d newPosition);
 
-    void renderLaserAppeared(
-        ID laserID, 
-        Vector2d newPosition, 
-        LaserOrientation orientation);
+    void renderLaserAppeared(ID laserID, Vector2d newPosition, LaserOrientation orientation);
     void renderLaserMoved(ID laserID, Vector2d newPosition, LaserOrientation orientation);
     void renderLaserRemoved(ID laserID);
 

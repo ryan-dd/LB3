@@ -2,6 +2,7 @@
 #define ARENA_H
 
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <memory>
 #include <optional>
@@ -19,14 +20,18 @@ private:
     void initializeData(int xMax, int yMax);
     int xMax;
     int yMax;
+    int availablePositions;
 
     RandomIntGenerator xCoordinateGenerator;
     RandomIntGenerator yCoordinateGenerator;
     RandomIntGenerator boolGenerator;
     mutable std::optional<RandomIntGenerator> randomTeleporterIndexGenerator;
-
+    std::vector<Vector2d> noObstaclePositions;
+    bool canPlaceObstacle(int x, int y, ObstacleType type);
+    
 public:
-    Arena(int xMax, int yMax);
+    Arena(int xMax, int yMax, std::vector<Vector2d> noObstaclePositions = {});
+    
     void generateObstacles(ObstacleType type, int numObstacles);
     ObstacleType at(int x, int y) const;
     ObstacleType at(Vector2d input) const;

@@ -15,7 +15,7 @@ void GameRenderer::initializeData(int numberOfPlayers)
 {
     int y, x;
     getmaxyx(window, y, x);
-    int xIncrement = (x-5)/(numberOfPlayers-1);
+    int xIncrement = (x-6)/(numberOfPlayers-1);
     for (int i = 0; i < numberOfPlayers; i++)
     {
         char playerSymbol = std::to_string(i + 1).at(0);
@@ -34,9 +34,9 @@ void GameRenderer::renderPlayerAppeared(ID playerID, Vector2d newPosition)
 void GameRenderer::renderPlayerMoved(ID playerID, Vector2d newPosition)
 {
     auto& currPosition = playerPositions.at(playerID);
-    playerColor.at(playerID) = LB3::Color::PLAYER_DEFAULT;
     renderArenaLocation(currPosition);
     currPosition = newPosition;
+    playerColor.at(playerID) = LB3::Color::PLAYER_DEFAULT;
     renderAllPlayers();
 }
 
@@ -118,7 +118,7 @@ void GameRenderer::renderPlayerScore(ID playerID, int score)
 
 void GameRenderer::renderArenaLocation(Vector2d location)
 {
-    renderChar(location, arenaSymbols.at(location.y).at(location.x));
+    renderChar(location, getArenaSymbol(location));
 }
 
 void GameRenderer::renderSecondsLeft(int seconds)
