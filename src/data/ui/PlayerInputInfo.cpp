@@ -15,3 +15,14 @@ PlayerInputInfo getPlayerTwoInputInfo()
     info.laser = 'v';
     return info;
 }
+
+PlayerInputInfo getPlayerThreeInputInfo()
+{
+    PlayerInputInfo info;
+    info.up = 'k';
+    info.down = 'j';
+    info.left = 'h';
+    info.right = 'l';
+    info.laser = 'i';
+    return info;
+}

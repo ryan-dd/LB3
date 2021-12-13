@@ -12,18 +12,9 @@ GameSession::GameSession(const GameStartParameters parameters):
     int yMax = parameters.arena.getMaxY();
     initializeCurses(xMax, yMax);
 
-    bool playerOne = true;
-    for(const auto playerID: parameters.playerIDsToBeControlled)
+    for(const auto [playerID, inputControls]: parameters.playersToBeControlled)
     {
-        if(playerOne)
-        {
-            inputInfos.insert({playerID, getPlayerOneInputInfo()});
-            playerOne = false;
-        }
-        else
-        {
-            inputInfos.insert({playerID, getPlayerTwoInputInfo()});
-        }
+        inputInfos.insert({playerID, inputControls});
     }
     
     int numPlayers = parameters.getNumberOfPlayers();

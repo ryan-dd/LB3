@@ -7,16 +7,17 @@
 #include "Agent.h"
 #include "Arena.h"
 #include "ID.h"
+#include "PlayerInputInfo.h"
 
 struct GameStartParameters
 {
-    GameStartParameters(const std::unordered_set<ID> playerIDsToBeControlled,
+    GameStartParameters(const std::unordered_map<ID, PlayerInputInfo> playersToBeControlled,
                         const std::vector<Agent> players,
                         const Arena arena,
                         std::chrono::seconds gameDuration = std::chrono::seconds(60));                 
     
-    // IDs of Players that will be controlled by this client
-    const std::unordered_set<ID> playerIDsToBeControlled;
+    // IDs and controls of Players that will be controlled by this client
+    const std::unordered_map<ID, PlayerInputInfo> playersToBeControlled;
     // Starting data for players. The playerIDs are based on indices of this data
     const std::vector<Agent> players;
     // The arena the game will be played on

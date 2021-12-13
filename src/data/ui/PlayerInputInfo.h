@@ -14,5 +14,6 @@ struct PlayerInputInfo
 
 PlayerInputInfo getPlayerOneInputInfo();
 PlayerInputInfo getPlayerTwoInputInfo();
+PlayerInputInfo getPlayerThreeInputInfo();
 
 #endif // PLAYERINPUTINFO_H

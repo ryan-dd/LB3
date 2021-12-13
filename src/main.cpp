@@ -1,6 +1,7 @@
 #include "GameSession.h"
 #include "GameStartParameters.h"
 #include "Logger.h"
+#include "PlayerInputInfo.h"
 
 #include <ncurses.h>
 
@@ -12,7 +13,7 @@ int main()
 {
     Logger::initialize();
     
-    int gameHeight = 15;
+    int gameHeight = 25;
     int gameWidth = 60;
 
     Arena arena(gameWidth, gameHeight);
@@ -23,15 +24,19 @@ int main()
     std::vector<Agent> players;
     players.emplace_back(1, 1, Direction::RIGHT);
     players.emplace_back(arena.getMaxX() - 2, arena.getMaxY() - 2, Direction::LEFT);
+    players.emplace_back(20, 20, Direction::LEFT);
     
-    std::unordered_set<ID> playerIDsToBeControlled{0, 1};
+    std::unordered_map<ID, PlayerInputInfo> playersToBeControlled{
+        {0, getPlayerOneInputInfo()},
+        {1, getPlayerTwoInputInfo()},
+        {2, getPlayerThreeInputInfo()}};
 
     std::optional<GameStartParameters> parameters;
     
     try
     {
         parameters.emplace(
-            playerIDsToBeControlled,
+            playersToBeControlled,
             players,
             arena);
     }
