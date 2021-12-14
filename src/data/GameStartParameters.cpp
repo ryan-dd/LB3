@@ -54,22 +54,28 @@ void GameStartParameters::checkPlayersValid()
         throw std::invalid_argument(errorMessage.str());
     }
 
-    for(const auto& agent: players)
+    for(const auto& player: players)
     {
         ObstacleType obstacleType;
         
         try
         {
-            obstacleType = arena.at(agent.xy);
+            obstacleType = arena.at(player.xy);
         }
         catch(const std::exception& e)
         {
-            throw std::invalid_argument("GameStartParameters::GameStartParameters - Cannot place agent starting position out of arena");
+            std::stringstream errorMessage;
+            errorMessage << "GameStartParameters::GameStartParameters - Cannot place player starting position out of arena.";
+            errorMessage << "Position was: (" << player.xy.x << " " << player.xy.y << ")" << "but x valid range is 0 to " << arena.getMaxX()-1 << " and valid y range is " << arena.getMaxY()-1;
+            throw std::invalid_argument(errorMessage.str());
         }
 
         if(obstacleType == ObstacleType::Wall)
         {
-            throw std::invalid_argument("GameStartParameters::GameStartParameters - Cannot place agent starting position at wall");
+            std::stringstream errorMessage;
+            errorMessage << "GameStartParameters::GameStartParameters - Cannot place player starting position at wall. ";
+            errorMessage << "Position was: (" << player.xy.x << " " << player.xy.y << ")";
+            throw std::invalid_argument(errorMessage.str());
         }
     }
 }

@@ -139,6 +139,18 @@ void GameSession::printToSession(const std::string& input)
     wrefresh(window);
 }
 
+void GameSession::printInstructions()
+{
+   queueToPrintToSession("P1 - Arrow keys to move, space bar to shoot");
+   queueToPrintToSession("");
+   queueToPrintToSession("P2 - w a s d to move, v to shoot.");
+   queueToPrintToSession("");
+   queueToPrintToSession("\'/\' and \'\\\' are mirrors, and \'*\' are teleporters");
+   queueToPrintToSession("");
+   queueToPrintToSession("Press \"q\" to quit. Hope you enjoy! ");
+   printQueuedMessages();
+}
+
 void GameSession::queueToPrintToSession(const std::string& input)
 {
     toPrint.push_back(input);

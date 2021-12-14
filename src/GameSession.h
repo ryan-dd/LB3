@@ -34,6 +34,7 @@ public:
     GameSession(const GameStartParameters parameters);
     ~GameSession();
     void printToSession(const std::string& input);
+    void printInstructions();
     void queueToPrintToSession(const std::string& input);
     void printQueuedMessages();
 

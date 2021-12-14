@@ -60,7 +60,7 @@ void Arena::generateObstacles(ObstacleType type, int numObstacles)
 {
     if(numObstacles < 1)
     {
-        throw std::invalid_argument("Arena::generateObstacles - Invalid number of obstacles specified");
+        throw std::invalid_argument("Arena::generateObstacles - At least one obstacle should be added");
     }
 
     if(type == ObstacleType::NoObstacle || type == ObstacleType::Wall)

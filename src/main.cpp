@@ -48,19 +48,11 @@ int main()
     }
     
     LB3::GameSession session(*parameters);
-    session.printToSession("Welcome to Light Battle 3000!!! (Press any key to continue)");
+    session.printToSession("Welcome to Laser Blast 3000!!! (Press any key to continue)");
     session.waitForUserInput();
     session.printToSession("Shoot your opponent(s) to increase your score!");
     session.waitForUserInput();
-
-    session.queueToPrintToSession("P1 - Arrow keys to move, space bar to shoot");
-    session.queueToPrintToSession("");
-    session.queueToPrintToSession("P2 - w a s d to move, v to shoot.");
-    session.queueToPrintToSession("");
-    session.queueToPrintToSession("\'/\' and \'\\\' are mirrors, and \'*\' are teleporters");
-    session.queueToPrintToSession("");
-    session.queueToPrintToSession("Press \"q\" to quit. Hope you enjoy! ");
-    session.printQueuedMessages();
+    session.printInstructions();
     session.waitForUserInput();
     session.clear();
     
