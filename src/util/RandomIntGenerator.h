@@ -2,6 +2,8 @@
 #define RANDOMNUMBERGENERATOR_H
 #include <random>
 
+namespace LB3
+{
 class RandomIntGenerator
 {
 private:
@@ -11,6 +13,6 @@ public:
     RandomIntGenerator(int min, int max);
     int getRandomInt();
 };
+}
 
-
-#endif // RANDOMIntGENERATOR_H
+#endif // RANDOMNUMBERGENERATOR_H

@@ -5,6 +5,8 @@
 #include <thread>
 #include <string>
 
+namespace LB3
+{
 GameSession::GameSession(const GameStartParameters parameters):
     gameDuration(parameters.gameDuration)
 {
@@ -203,4 +205,5 @@ void GameSession::initializeCurses(int xMax, int yMax)
 void GameSession::cleanUpCurses()
 {
     endwin();
+}
 }

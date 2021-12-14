@@ -9,6 +9,8 @@
 #include "ID.h"
 #include "PlayerInputInfo.h"
 
+namespace LB3
+{
 struct GameStartParameters
 {
     GameStartParameters(const std::unordered_map<ID, PlayerInputInfo> playersToBeControlled,
@@ -33,5 +35,6 @@ struct GameStartParameters
         void checkGameDurationValid();
         // Arena handles its own validation
 };
+}
 
 #endif // GAMESTARTPARAMETERS_H

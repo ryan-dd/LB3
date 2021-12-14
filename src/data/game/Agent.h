@@ -5,6 +5,8 @@
 #include "Direction.h"
 #include "Vector2d.h"
 
+namespace LB3
+{
 struct Agent
 {
     Agent(int x, int y, Direction initialDirection):
@@ -22,5 +24,6 @@ struct Agent
     Vector2d xy;
     Direction facingDirection;
 };
+}
 
 #endif

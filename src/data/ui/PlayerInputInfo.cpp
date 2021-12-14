@@ -1,5 +1,7 @@
 #include "PlayerInputInfo.h"
 
+namespace LB3
+{
 PlayerInputInfo getPlayerOneInputInfo()
 {
     return PlayerInputInfo();
@@ -25,4 +27,5 @@ PlayerInputInfo getPlayerThreeInputInfo()
     info.right = 'l';
     info.laser = 'i';
     return info;
+}
 }

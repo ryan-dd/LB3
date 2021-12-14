@@ -4,6 +4,8 @@
 #include "RandomIntGenerator.h"
 #include "Vector2d.h"
 
+namespace LB3
+{
 class ArenaCoordinateGenerator
 {
 private:
@@ -13,5 +15,6 @@ public:
     ArenaCoordinateGenerator(int xMax, int yMax);
     Vector2d getRandomCoords();
 };
+}
 
 #endif // ARENACOORDINATEGENERATOR_H

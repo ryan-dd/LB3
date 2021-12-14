@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <sstream>
 
+namespace LB3
+{
 GameStartParameters::GameStartParameters(
     const std::unordered_map<ID, PlayerInputInfo> playersToBeControlled,
     const std::vector<Agent> players,
@@ -104,4 +106,5 @@ void GameStartParameters::checkControllingPlayerIDsValid()
 int GameStartParameters::getNumberOfPlayers() const
 {
     return players.size();
+}
 }

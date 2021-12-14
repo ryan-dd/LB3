@@ -5,6 +5,8 @@
 #include <string>
 #include <sstream>
 
+namespace LB3
+{
 GameRenderer::GameRenderer(WINDOW* window, int numberPlayers): 
     window(window)
 {
@@ -111,6 +113,7 @@ void GameRenderer::renderPlayerScore(ID playerID, int score)
     std::stringstream displayString;
     displayString << playerID+1 << ":" << score;
     renderHorizontalBorderAt(scorePosition.x, scorePosition.y, 6);
+    
     wattron(window, COLOR_PAIR(toInt(LB3::GameColor::DisplayDefault)));
     mvwprintw(window, scorePosition.y, scorePosition.x, displayString.str().c_str());
     wattroff(window, COLOR_PAIR(toInt(LB3::GameColor::DisplayDefault)));
@@ -198,4 +201,5 @@ void GameRenderer::renderChar(Vector2d location, char symbol)
 void GameRenderer::renderChar(int x, int y, char symbol)
 {
     mvwaddch(window, y, x, symbol);
+}
 }

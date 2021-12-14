@@ -12,6 +12,8 @@
 #include "MirrorType.h"
 #include "RandomIntGenerator.h"
 
+namespace LB3
+{
 class Arena
 {
 private:
@@ -39,5 +41,6 @@ public:
     int getMaxY() const;
     Vector2d getRandomTeleporterLocation(Vector2d currTeleporterPosition) const;
 };
+}
 
 #endif // ARENA_H

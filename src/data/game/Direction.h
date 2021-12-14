@@ -4,6 +4,9 @@
 #include <cmath>
 #include "Vector2d.h"
 
+namespace LB3
+{
+
 enum class Direction
 {
     Right,
@@ -13,5 +16,7 @@ enum class Direction
 };
 
 Vector2d toVector(Direction direction);
+
+}
 
 #endif

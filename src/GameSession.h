@@ -12,6 +12,8 @@
 #include <memory>
 #include <chrono>
 
+namespace LB3
+{
 class GameSession
 {
 private:
@@ -41,7 +43,6 @@ public:
     void start();
     void updateState();
 };
-
-
+}
 
 #endif

@@ -12,6 +12,8 @@
 #include <utility>
 #include <vector>
 
+namespace LB3
+{
 class GameEventHandler
 {
 private:
@@ -45,5 +47,6 @@ public:
     void newLaser(int playerID);
     std::vector<ID> getWinners();
 };
+}
 
 #endif // GAMEEVENTHANDLER_H

@@ -2,8 +2,8 @@
 
 namespace LB3
 {
-    int toInt(GameColor color)
-    {
-        return static_cast<int>(color);
-    }
+int toInt(GameColor color)
+{
+    return static_cast<int>(color);
+}
 }

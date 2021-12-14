@@ -10,6 +10,8 @@
 #include "Direction.h"
 #include "GameColor.h"
 
+namespace LB3
+{
 class GameRenderer
 {
 private:
@@ -55,5 +57,6 @@ public:
     void renderSecondsLeft(int seconds);
     void renderPlayerScore(ID playerID, int score);
 };
+}
 
 #endif // GAMERENDERER_H

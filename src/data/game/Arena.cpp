@@ -4,6 +4,8 @@
 
 #include <algorithm>
 
+namespace LB3
+{
 Arena::Arena(int xMax, int yMax, std::vector<Vector2d> noObstaclePositions):
     xMax(xMax),
     yMax(yMax),
@@ -150,4 +152,5 @@ Vector2d Arena::getRandomTeleporterLocation(Vector2d currTeleporterPosition) con
             return newPosition;
         }
     }
+}
 }

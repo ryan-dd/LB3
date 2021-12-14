@@ -1,5 +1,8 @@
 #include "Logger.h"
 #include <fstream>
+
+namespace LB3
+{
 namespace Logger
 {
     void log(const std::string& message)
@@ -29,7 +32,4 @@ namespace Logger
         outfile.open("log.txt", std::ofstream::out | std::ofstream::trunc);
     }
 }
-
-
-
-
+}

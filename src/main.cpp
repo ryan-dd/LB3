@@ -11,27 +11,27 @@
 
 int main()
 {
-    Logger::initialize();
+    LB3::Logger::initialize();
     
     int gameHeight = 25;
     int gameWidth = 60;
 
-    Arena arena(gameWidth, gameHeight);
-    arena.generateObstacles(ObstacleType::ForwardMirror, 40);
-    arena.generateObstacles(ObstacleType::BackMirror, 40);
-    arena.generateObstacles(ObstacleType::Teleporter, 40);
+    LB3::Arena arena(gameWidth, gameHeight);
+    arena.generateObstacles(LB3::ObstacleType::ForwardMirror, 40);
+    arena.generateObstacles(LB3::ObstacleType::BackMirror, 40);
+    arena.generateObstacles(LB3::ObstacleType::Teleporter, 40);
 
-    std::vector<Agent> players;
-    players.emplace_back(1, 1, Direction::Right);
-    players.emplace_back(arena.getMaxX() - 2, arena.getMaxY() - 2, Direction::Left);
-    players.emplace_back(20, 20, Direction::Left);
+    std::vector<LB3::Agent> players;
+    players.emplace_back(1, 1, LB3::Direction::Right);
+    players.emplace_back(arena.getMaxX() - 2, arena.getMaxY() - 2, LB3::Direction::Left);
+    players.emplace_back(20, 20, LB3::Direction::Left);
     
-    std::unordered_map<ID, PlayerInputInfo> playersToBeControlled{
-        {0, getPlayerOneInputInfo()},
-        {1, getPlayerTwoInputInfo()},
-        {2, getPlayerThreeInputInfo()}};
+    std::unordered_map<LB3::ID, LB3::PlayerInputInfo> playersToBeControlled{
+        {0, LB3::getPlayerOneInputInfo()},
+        {1, LB3::getPlayerTwoInputInfo()},
+        {2, LB3::getPlayerThreeInputInfo()}};
 
-    std::optional<GameStartParameters> parameters;
+    std::optional<LB3::GameStartParameters> parameters;
     
     try
     {
@@ -43,11 +43,11 @@ int main()
     catch(const std::exception& e)
     {
         std::cerr << "Error occurred while initializing: " << '\n' << e.what() << '\n';
-        Logger::log(e.what());
+        LB3::Logger::log(e.what());
         return 0;
     }
     
-    GameSession session(*parameters);
+    LB3::GameSession session(*parameters);
     session.printToSession("Welcome to Light Battle 3000!!! (Press any key to continue)");
     session.waitForUserInput();
     session.printToSession("Shoot your opponent(s) to increase your score!");

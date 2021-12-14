@@ -5,6 +5,8 @@
 #include <string>
 #include "Vector2d.h"
 
+namespace LB3
+{
 namespace Logger
 {
     void log(const std::string& message);
@@ -12,7 +14,7 @@ namespace Logger
     void log(Vector2d position);
     void initialize();
 }
-
+}
 
 #endif // LOGGER_H
 

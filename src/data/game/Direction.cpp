@@ -1,6 +1,8 @@
 #include "Direction.h"
 #include <stdexcept>
 
+namespace LB3
+{
 Vector2d toVector(Direction direction)
 {
     // Assuming origin is in upper left hand corner
@@ -15,4 +17,5 @@ Vector2d toVector(Direction direction)
         case Direction::Down: 
             return {0, 1};
     }
+}
 }

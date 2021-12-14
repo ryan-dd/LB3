@@ -1,6 +1,8 @@
 #ifndef OBSTACLETYPE_H
 #define OBSTACLETYPE_H
 
+namespace LB3
+{
 enum class ObstacleType
 {
     NoObstacle,
@@ -10,5 +12,6 @@ enum class ObstacleType
     BackMirror,
     Teleporter
 };
+}
 
 #endif // OBSTACLETYPE_H

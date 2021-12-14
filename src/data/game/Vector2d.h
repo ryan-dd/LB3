@@ -3,6 +3,8 @@
 
 #include <utility>
 
+namespace LB3
+{
 struct Vector2d
 {
     Vector2d(int x, int y): x(x), y(y)
@@ -22,6 +24,7 @@ inline Vector2d operator+(const Vector2d& lhs, const Vector2d& rhs)
 inline bool operator==(const Vector2d& lhs, const Vector2d& rhs)
 {
     return (lhs.x == rhs.x && lhs.y == rhs.y);
+}
 }
 
 #endif // VECTOR2D_H

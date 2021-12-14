@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <Logger.h>
 
+namespace LB3
+{
 GameEventHandler::GameEventHandler(
     GameRenderer& renderer, 
     GameStartParameters parameters):
@@ -246,4 +248,5 @@ std::vector<ID> GameEventHandler::getWinners()
     }
     std::sort(winningPlayers.begin(), winningPlayers.end());
     return winningPlayers;
+}
 }

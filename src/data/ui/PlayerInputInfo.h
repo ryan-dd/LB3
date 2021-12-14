@@ -3,6 +3,8 @@
 
 #include <curses.h>
 
+namespace LB3
+{
 struct PlayerInputInfo
 {
     char up = (char)KEY_UP;
@@ -15,5 +17,6 @@ struct PlayerInputInfo
 PlayerInputInfo getPlayerOneInputInfo();
 PlayerInputInfo getPlayerTwoInputInfo();
 PlayerInputInfo getPlayerThreeInputInfo();
+}
 
 #endif // PLAYERINPUTINFO_H
