@@ -43,13 +43,13 @@ void Arena::initializeData(int xMax, int yMax)
     {
         if(rowIndex == 0 || rowIndex == data.size() - 1)
         {
-            data.at(rowIndex) = std::vector<ObstacleType>(xMax, ObstacleType::WALL);
+            data.at(rowIndex) = std::vector<ObstacleType>(xMax, ObstacleType::Wall);
         }
         else
         {
-            data.at(rowIndex) = std::vector<ObstacleType>(xMax, ObstacleType::NO_OBSTACLE);
-            data.at(rowIndex).at(0) = ObstacleType::WALL;
-            data.at(rowIndex).at(xMax - 1) = ObstacleType::WALL;
+            data.at(rowIndex) = std::vector<ObstacleType>(xMax, ObstacleType::NoObstacle);
+            data.at(rowIndex).at(0) = ObstacleType::Wall;
+            data.at(rowIndex).at(xMax - 1) = ObstacleType::Wall;
         }
     }
 }
@@ -61,9 +61,9 @@ void Arena::generateObstacles(ObstacleType type, int numObstacles)
         throw std::invalid_argument("Arena::generateObstacles - Invalid number of obstacles specified");
     }
 
-    if(type == ObstacleType::NO_OBSTACLE || type == ObstacleType::WALL)
+    if(type == ObstacleType::NoObstacle || type == ObstacleType::Wall)
     {
-        throw std::invalid_argument("Arena::generateObstacles - Cannot generate obstacles of ObstacleType::NO_OBSTACLE or ObstacleType::WALL type");
+        throw std::invalid_argument("Arena::generateObstacles - Cannot generate obstacles of ObstacleType::NoObstacle or ObstacleType::Wall type");
     }
 
     if(availablePositions - numObstacles < 0)
@@ -72,7 +72,7 @@ void Arena::generateObstacles(ObstacleType type, int numObstacles)
     }
 
     bool isTeleporter = false;
-    if(type == ObstacleType::TELEPORTER)
+    if(type == ObstacleType::Teleporter)
     {
         isTeleporter = true;
 
@@ -121,7 +121,7 @@ bool Arena::canPlaceObstacle(int x, int y, ObstacleType currType)
         return false;
     }
 
-    if(currType != ObstacleType::NO_OBSTACLE)
+    if(currType != ObstacleType::NoObstacle)
     {
         return false;
     }

@@ -3,8 +3,8 @@
 
 enum class LaserOrientation
 {
-    VERTICAL,
-    HORIZONTAL
+    Vertical,
+    Horizontal
 };
 
 #endif // LASERORIENTATION_H

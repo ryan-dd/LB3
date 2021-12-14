@@ -100,19 +100,19 @@ void GameSession::updatePlayer(char input, int id, PlayerInputInfo playerInfo)
 {
     if(input == playerInfo.up)
     {
-        eventHandler->movePlayer(id, Direction::UP);
+        eventHandler->movePlayer(id, Direction::Up);
     } 
     else if(input == playerInfo.down)
     {
-        eventHandler->movePlayer(id, Direction::DOWN);
+        eventHandler->movePlayer(id, Direction::Down);
     }
     else if(input == playerInfo.left)
     {
-        eventHandler->movePlayer(id, Direction::LEFT);
+        eventHandler->movePlayer(id, Direction::Left);
     }
     else if(input == playerInfo.right)
     {
-        eventHandler->movePlayer(id, Direction::RIGHT);
+        eventHandler->movePlayer(id, Direction::Right);
     }
     else if(input == playerInfo.laser)
     {
@@ -188,13 +188,13 @@ void GameSession::initializeCurses(int xMax, int yMax)
     }
 
     start_color();
-	init_pair(toInt(LB3::Color::ARENA_DEFAULT), COLOR_WHITE, COLOR_BLACK); // Default color for game
-	init_pair(toInt(LB3::Color::PLAYER_DEFAULT), COLOR_YELLOW, COLOR_BLACK); // Default player color 
-    init_pair(toInt(LB3::Color::PLAYER_SHOT), COLOR_RED, COLOR_BLACK); // Player hit by laser color
-    init_pair(toInt(LB3::Color::PLAYER_TELEPORTED), COLOR_MAGENTA, COLOR_BLACK); // Player teleport color
-    init_pair(toInt(LB3::Color::DISPLAY_DEFAULT), COLOR_GREEN, COLOR_BLACK); // Score and timer color
+	init_pair(toInt(LB3::Color::ArenaDefault), COLOR_WHITE, COLOR_BLACK); // Default color for game
+	init_pair(toInt(LB3::Color::PlayerDefault), COLOR_YELLOW, COLOR_BLACK); // Default player color 
+    init_pair(toInt(LB3::Color::PlayerShot), COLOR_RED, COLOR_BLACK); // Player hit by laser color
+    init_pair(toInt(LB3::Color::PlayerTeleported), COLOR_MAGENTA, COLOR_BLACK); // Player teleport color
+    init_pair(toInt(LB3::Color::DisplayDefault), COLOR_GREEN, COLOR_BLACK); // Score and timer color
 	
-    attron(COLOR_PAIR(toInt(LB3::Color::ARENA_DEFAULT)));
+    attron(COLOR_PAIR(toInt(LB3::Color::ArenaDefault)));
 	
     refresh();
     box(window, 0, 0);

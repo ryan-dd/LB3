@@ -25,8 +25,8 @@ private:
     // Laser Data
     std::unordered_map<ID, Vector2d> lasers;
     std::unordered_map<LaserOrientation, char> laserOrientationSymbol{
-        {LaserOrientation::VERTICAL, '|'},
-        {LaserOrientation::HORIZONTAL, '-'}
+        {LaserOrientation::Vertical, '|'},
+        {LaserOrientation::Horizontal, '-'}
     };
 
     // Arena Data

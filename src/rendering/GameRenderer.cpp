@@ -20,7 +20,7 @@ void GameRenderer::initializeData(int numberOfPlayers)
     {
         char playerSymbol = std::to_string(i + 1).at(0);
         playerSymbols.insert({i, playerSymbol});
-        playerColor.insert({i, LB3::Color::PLAYER_DEFAULT});
+        playerColor.insert({i, LB3::Color::PlayerDefault});
         playerScorePositions.insert({i, Vector2d(i*xIncrement, y-1)});
     }   
 }
@@ -36,13 +36,13 @@ void GameRenderer::renderPlayerMoved(ID playerID, Vector2d newPosition)
     auto& currPosition = playerPositions.at(playerID);
     renderArenaLocation(currPosition);
     currPosition = newPosition;
-    playerColor.at(playerID) = LB3::Color::PLAYER_DEFAULT;
+    playerColor.at(playerID) = LB3::Color::PlayerDefault;
     renderAllPlayers();
 }
 
 void GameRenderer::renderPlayerShot(ID playerID)
 {   
-    playerColor.at(playerID) = LB3::Color::PLAYER_SHOT;
+    playerColor.at(playerID) = LB3::Color::PlayerShot;
     renderPlayer(playerID);
 }
 
@@ -51,7 +51,7 @@ void GameRenderer::renderPlayerTeleported(ID playerID, Vector2d newPosition)
     auto& currPosition = playerPositions.at(playerID);
     renderArenaLocation(currPosition);
     currPosition = newPosition;
-    playerColor.at(playerID) = LB3::Color::PLAYER_TELEPORTED;
+    playerColor.at(playerID) = LB3::Color::PlayerTeleported;
     renderPlayer(playerID);
 }
 
@@ -111,9 +111,9 @@ void GameRenderer::renderPlayerScore(ID playerID, int score)
     mvwprintw(window, scorePosition.y, scorePosition.x, clearString.c_str());
     std::stringstream displayString;
     displayString << playerID+1 << ":" << score;
-    wattron(window, COLOR_PAIR(toInt(LB3::Color::DISPLAY_DEFAULT)));
+    wattron(window, COLOR_PAIR(toInt(LB3::Color::DisplayDefault)));
     mvwprintw(window, scorePosition.y, scorePosition.x, displayString.str().c_str());
-    wattroff(window, COLOR_PAIR(toInt(LB3::Color::DISPLAY_DEFAULT)));
+    wattroff(window, COLOR_PAIR(toInt(LB3::Color::DisplayDefault)));
 }
 
 void GameRenderer::renderArenaLocation(Vector2d location)
@@ -128,10 +128,10 @@ void GameRenderer::renderSecondsLeft(int seconds)
     int printY = 0;
     int printX = x/2;
     auto secondsLeftStr = std::to_string(seconds);
-    wattron(window, COLOR_PAIR(toInt(LB3::Color::DISPLAY_DEFAULT)));
+    wattron(window, COLOR_PAIR(toInt(LB3::Color::DisplayDefault)));
     mvwprintw(window, printY, printX, clearString.c_str());
     mvwprintw(window, printY, printX, secondsLeftStr.c_str());
-    wattroff(window, COLOR_PAIR(toInt(LB3::Color::DISPLAY_DEFAULT)));
+    wattroff(window, COLOR_PAIR(toInt(LB3::Color::DisplayDefault)));
 }
 
 void GameRenderer::renderArena(const Arena& arena)
@@ -154,19 +154,19 @@ void GameRenderer::renderArena(const Arena& arena)
         {
             switch (arena.at(x_index, y_index))
             {
-            case ObstacleType::OBSTACLE:
+            case ObstacleType::Block:
                 renderChar(x_index, y_index, obstacleSymbol);
                 arenaSymbols.at(y_index).at(x_index) = obstacleSymbol;
                 break;
-            case ObstacleType::FORWARD_MIRROR:
+            case ObstacleType::ForwardMirror:
                 renderChar(x_index, y_index, forwardMirrorSymbol);
                 arenaSymbols.at(y_index).at(x_index) = forwardMirrorSymbol;
                 break;
-            case ObstacleType::BACK_MIRROR:
+            case ObstacleType::BackMirror:
                 renderChar(x_index, y_index, backMirrorSymbol);
                 arenaSymbols.at(y_index).at(x_index) = backMirrorSymbol;
                 break;
-            case ObstacleType::TELEPORTER:
+            case ObstacleType::Teleporter:
                 renderChar(x_index, y_index, teleporterSymbol);
                 arenaSymbols.at(y_index).at(x_index) = teleporterSymbol;
                 break;

@@ -40,12 +40,12 @@ void GameEventHandler::movePlayer(int playerID, Direction direction)
     auto newPlayerPosition = player.xy + toVector(direction);
     auto obstacleType = arena.at(newPlayerPosition);
     
-    if(obstacleType == ObstacleType::NO_OBSTACLE)
+    if(obstacleType == ObstacleType::NoObstacle)
     {
         player.xy = newPlayerPosition;
         renderer.renderPlayerMoved(playerID, player.xy);
     }
-    else if(obstacleType == ObstacleType::TELEPORTER)
+    else if(obstacleType == ObstacleType::Teleporter)
     {
         player.xy = arena.getRandomTeleporterLocation(newPlayerPosition);
         renderer.renderPlayerTeleported(playerID, player.xy);
@@ -59,18 +59,18 @@ void GameEventHandler::newLaser(int playerID)
     Vector2d newLaserPosition = player.xy + toVector(direction);
 
     auto obstacleType = arena.at(newLaserPosition);
-    if(obstacleType == ObstacleType::NO_OBSTACLE ||
-       obstacleType == ObstacleType::TELEPORTER ||
-       obstacleType == ObstacleType::FORWARD_MIRROR ||
-       obstacleType == ObstacleType::BACK_MIRROR)
+    if(obstacleType == ObstacleType::NoObstacle ||
+       obstacleType == ObstacleType::Teleporter ||
+       obstacleType == ObstacleType::ForwardMirror ||
+       obstacleType == ObstacleType::BackMirror)
     {
-        if(obstacleType == ObstacleType::FORWARD_MIRROR)
+        if(obstacleType == ObstacleType::ForwardMirror)
         {
-            direction = reflectLaser(direction, MirrorType::FORWARD);
+            direction = reflectLaser(direction, MirrorType::Forward);
         }
-        else if(obstacleType == ObstacleType::BACK_MIRROR)
+        else if(obstacleType == ObstacleType::BackMirror)
         {
-            direction = reflectLaser(direction, MirrorType::BACK);
+            direction = reflectLaser(direction, MirrorType::Back);
         }
 
         Agent newLaser(newLaserPosition, direction);
@@ -104,8 +104,8 @@ void GameEventHandler::updateLasers()
         auto newLaserPosition = laser.xy + toVector(laser.facingDirection);
         auto obstacleAtNewPosition = arena.at(newLaserPosition);
         
-        if(obstacleAtNewPosition == ObstacleType::NO_OBSTACLE ||
-           obstacleAtNewPosition == ObstacleType::TELEPORTER)
+        if(obstacleAtNewPosition == ObstacleType::NoObstacle ||
+           obstacleAtNewPosition == ObstacleType::Teleporter)
         {
             laser.xy = newLaserPosition;
             bool atLeastOnePlayerHit = updatePlayersAtLaserPosition(laserID);
@@ -124,15 +124,15 @@ void GameEventHandler::updateLasers()
                 ++itr;
             }
         }
-        else if(obstacleAtNewPosition == ObstacleType::FORWARD_MIRROR)
+        else if(obstacleAtNewPosition == ObstacleType::ForwardMirror)
         {
             laser.xy = newLaserPosition;
-            laser.facingDirection = reflectLaser(laser.facingDirection, MirrorType::FORWARD);
+            laser.facingDirection = reflectLaser(laser.facingDirection, MirrorType::Forward);
         }
-        else if(obstacleAtNewPosition == ObstacleType::BACK_MIRROR)
+        else if(obstacleAtNewPosition == ObstacleType::BackMirror)
         {
             laser.xy = newLaserPosition;
-            laser.facingDirection = reflectLaser(laser.facingDirection, MirrorType::BACK);
+            laser.facingDirection = reflectLaser(laser.facingDirection, MirrorType::Back);
         }
         else
         {
@@ -176,21 +176,21 @@ bool GameEventHandler::updatePlayersAtLaserPosition(ID laserID)
 
 Direction GameEventHandler::reflectLaser(Direction prevDirection, MirrorType mirrorType)
 {
-    if(mirrorType == MirrorType::FORWARD)
+    if(mirrorType == MirrorType::Forward)
     {
         switch (prevDirection)
         {
-        case Direction::RIGHT:
-            return Direction::UP;
+        case Direction::Right:
+            return Direction::Up;
             break;
-        case Direction::UP:
-            return Direction::RIGHT;
+        case Direction::Up:
+            return Direction::Right;
             break;
-        case Direction::DOWN:
-            return Direction::LEFT;
+        case Direction::Down:
+            return Direction::Left;
             break;
-        case Direction::LEFT:
-            return Direction::DOWN;
+        case Direction::Left:
+            return Direction::Down;
             break;
         }
     }
@@ -198,17 +198,17 @@ Direction GameEventHandler::reflectLaser(Direction prevDirection, MirrorType mir
     {
         switch(prevDirection)
         {
-        case Direction::RIGHT:
-            return Direction::DOWN;
+        case Direction::Right:
+            return Direction::Down;
             break;
-        case Direction::DOWN:
-            return Direction::RIGHT;
+        case Direction::Down:
+            return Direction::Right;
             break;
-        case Direction::LEFT:
-            return Direction::UP;
+        case Direction::Left:
+            return Direction::Up;
             break;
-        case Direction::UP:
-            return Direction::LEFT;
+        case Direction::Up:
+            return Direction::Left;
             break;
         }
         

@@ -6,14 +6,12 @@
 
 enum class Direction
 {
-    RIGHT = 0,
-    UP = 1,
-    LEFT = 2,
-    DOWN = 3
+    Right,
+    Up,
+    Left,
+    Down
 };
 
 Vector2d toVector(Direction direction);
-int toInt(Direction direction);
-Direction toDirection(int input);
 
 #endif

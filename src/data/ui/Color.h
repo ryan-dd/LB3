@@ -5,11 +5,11 @@ namespace LB3
 {
     enum class Color
     {
-        ARENA_DEFAULT = 0,
-        PLAYER_DEFAULT = 1,
-        PLAYER_SHOT = 2,
-        PLAYER_TELEPORTED = 3,
-        DISPLAY_DEFAULT = 4
+        ArenaDefault = 0,
+        PlayerDefault = 1,
+        PlayerShot = 2,
+        PlayerTeleported = 3,
+        DisplayDefault = 4
     };
 
     int toInt(Color color);

@@ -17,14 +17,14 @@ int main()
     int gameWidth = 60;
 
     Arena arena(gameWidth, gameHeight);
-    arena.generateObstacles(ObstacleType::FORWARD_MIRROR, 40);
-    arena.generateObstacles(ObstacleType::BACK_MIRROR, 40);
-    arena.generateObstacles(ObstacleType::TELEPORTER, 40);
+    arena.generateObstacles(ObstacleType::ForwardMirror, 40);
+    arena.generateObstacles(ObstacleType::BackMirror, 40);
+    arena.generateObstacles(ObstacleType::Teleporter, 40);
 
     std::vector<Agent> players;
-    players.emplace_back(1, 1, Direction::RIGHT);
-    players.emplace_back(arena.getMaxX() - 2, arena.getMaxY() - 2, Direction::LEFT);
-    players.emplace_back(20, 20, Direction::LEFT);
+    players.emplace_back(1, 1, Direction::Right);
+    players.emplace_back(arena.getMaxX() - 2, arena.getMaxY() - 2, Direction::Left);
+    players.emplace_back(20, 20, Direction::Left);
     
     std::unordered_map<ID, PlayerInputInfo> playersToBeControlled{
         {0, getPlayerOneInputInfo()},

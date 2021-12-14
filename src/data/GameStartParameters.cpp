@@ -65,7 +65,7 @@ void GameStartParameters::checkPlayersValid()
             throw std::invalid_argument("GameStartParameters::GameStartParameters - Cannot place agent starting position out of arena");
         }
 
-        if(obstacleType == ObstacleType::WALL)
+        if(obstacleType == ObstacleType::Wall)
         {
             throw std::invalid_argument("GameStartParameters::GameStartParameters - Cannot place agent starting position at wall");
         }

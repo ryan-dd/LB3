@@ -25,10 +25,10 @@ private:
     ID currentLaserID = 0;
 
     std::unordered_map<Direction, LaserOrientation> directionToLaserOrientation{
-        {Direction::UP, LaserOrientation::VERTICAL},
-        {Direction::DOWN, LaserOrientation::VERTICAL},
-        {Direction::LEFT, LaserOrientation::HORIZONTAL},
-        {Direction::RIGHT, LaserOrientation::HORIZONTAL}
+        {Direction::Up, LaserOrientation::Vertical},
+        {Direction::Down, LaserOrientation::Vertical},
+        {Direction::Left, LaserOrientation::Horizontal},
+        {Direction::Right, LaserOrientation::Horizontal}
     };
 
     void updateLasers();

@@ -3,8 +3,8 @@
 
 enum class MirrorType
 {
-    FORWARD,
-    BACK,
+    Forward,
+    Back,
 };
 
 #endif // MIRRORTYPE_H
