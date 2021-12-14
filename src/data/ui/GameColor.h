@@ -3,7 +3,7 @@
 
 namespace LB3
 {
-    enum class Color
+    enum class GameColor
     {
         ArenaDefault = 0,
         PlayerDefault = 1,
@@ -12,7 +12,7 @@ namespace LB3
         DisplayDefault = 4
     };
 
-    int toInt(Color color);
+    int toInt(GameColor color);
 }
 
 #endif // LB3COLOR_H

@@ -20,6 +20,7 @@ GameEventHandler::GameEventHandler(
 void GameEventHandler::start()
 {   
     renderer.renderArena(arena);
+    
     for(int playerID = 0; playerID < players.size(); ++ playerID)
     {
         renderer.renderPlayerScore(playerID, 0);
@@ -57,55 +58,58 @@ void GameEventHandler::newLaser(int playerID)
     auto& player = players.at(playerID);
     auto direction = player.facingDirection;
     Vector2d newLaserPosition = player.xy + toVector(direction);
-
     auto obstacleType = arena.at(newLaserPosition);
-    if(obstacleType == ObstacleType::NoObstacle ||
+
+    if(!(obstacleType == ObstacleType::NoObstacle ||
        obstacleType == ObstacleType::Teleporter ||
        obstacleType == ObstacleType::ForwardMirror ||
-       obstacleType == ObstacleType::BackMirror)
+       obstacleType == ObstacleType::BackMirror))
     {
-        if(obstacleType == ObstacleType::ForwardMirror)
-        {
-            direction = reflectLaser(direction, MirrorType::Forward);
-        }
-        else if(obstacleType == ObstacleType::BackMirror)
-        {
-            direction = reflectLaser(direction, MirrorType::Back);
-        }
+        return;
+    }
 
-        Agent newLaser(newLaserPosition, direction);
-        ++currentLaserID;
-        lasers.emplace(currentLaserID, newLaser);
-        laserShotBy.emplace(currentLaserID, playerID);
-        
-        bool atLeastOnePlayerHit = updatePlayersAtLaserPosition(currentLaserID);
-        if(atLeastOnePlayerHit)
-        {
-            laserShotBy.erase(currentLaserID);
-            lasers.erase(currentLaserID);
-        }
-        else
-        {
-            renderer.renderLaserAppeared(
+    if(obstacleType == ObstacleType::ForwardMirror)
+    {
+        direction = reflectLaser(direction, MirrorType::Forward);
+    }
+    else if(obstacleType == ObstacleType::BackMirror)
+    {
+        direction = reflectLaser(direction, MirrorType::Back);
+    }
+
+    Agent newLaser(newLaserPosition, direction);
+    ++currentLaserID;
+    lasers.emplace(currentLaserID, newLaser);
+    laserShotBy.emplace(currentLaserID, playerID);
+    
+    bool atLeastOnePlayerHit = updatePlayersAtLaserPosition(currentLaserID);
+    
+    if(atLeastOnePlayerHit)
+    {
+        laserShotBy.erase(currentLaserID);
+        lasers.erase(currentLaserID);
+        return;
+    }
+    else
+    {
+        renderer.renderLaserAppeared(
             currentLaserID, 
             newLaserPosition,
             directionToLaserOrientation.at(direction));
-        }
     }
 }
 
 void GameEventHandler::updateLasers()
 {
-    auto itr = lasers.begin();
-    while (itr != lasers.end())
+    for(auto it = lasers.begin(); it != lasers.end();)
     {
-        auto laserID = itr->first;
-        auto& laser = itr->second;
+        auto laserID = it->first;
+        auto& laser = it->second;
         auto newLaserPosition = laser.xy + toVector(laser.facingDirection);
-        auto obstacleAtNewPosition = arena.at(newLaserPosition);
+        auto obstacleTypeAtNewPosition = arena.at(newLaserPosition);
         
-        if(obstacleAtNewPosition == ObstacleType::NoObstacle ||
-           obstacleAtNewPosition == ObstacleType::Teleporter)
+        if(obstacleTypeAtNewPosition == ObstacleType::NoObstacle ||
+           obstacleTypeAtNewPosition == ObstacleType::Teleporter)
         {
             laser.xy = newLaserPosition;
             bool atLeastOnePlayerHit = updatePlayersAtLaserPosition(laserID);
@@ -114,30 +118,33 @@ void GameEventHandler::updateLasers()
             {
                 renderer.renderLaserRemoved(laserID);
                 laserShotBy.erase(laserID);
-                itr = lasers.erase(itr);
+                it = lasers.erase(it);
             }
             else
             {
                 renderer.renderLaserMoved(laserID, 
                                  newLaserPosition,
                                  directionToLaserOrientation.at(laser.facingDirection));
-                ++itr;
+                ++it;
             }
         }
-        else if(obstacleAtNewPosition == ObstacleType::ForwardMirror)
+        else if(obstacleTypeAtNewPosition == ObstacleType::ForwardMirror)
         {
             laser.xy = newLaserPosition;
             laser.facingDirection = reflectLaser(laser.facingDirection, MirrorType::Forward);
+            ++it;
         }
-        else if(obstacleAtNewPosition == ObstacleType::BackMirror)
+        else if(obstacleTypeAtNewPosition == ObstacleType::BackMirror)
         {
             laser.xy = newLaserPosition;
             laser.facingDirection = reflectLaser(laser.facingDirection, MirrorType::Back);
+            ++it;
         }
         else
         {
-            renderer.renderLaserRemoved(itr->first);
-            itr = lasers.erase(itr);
+            renderer.renderLaserRemoved(it->first);
+            laserShotBy.erase(laserID);
+            it = lasers.erase(it);
         }
     }
 }
@@ -149,29 +156,34 @@ bool GameEventHandler::updatePlayersAtLaserPosition(ID laserID)
     
     for(int playerID = 0; playerID < players.size(); ++playerID)
     {
-        auto player = players.at(playerID);
+        auto playerPosition = players.at(playerID).xy;
         
-        if(player.xy == laserPosition)
+        if(playerPosition == laserPosition)
         {
-            auto laserShotByPlayerID = laserShotBy.at(laserID);
-            auto& scoreOfPlayerThatShotLaser = playersScores.at(laserShotByPlayerID);
-            
-            if(laserShotByPlayerID == playerID)
-            {
-                --scoreOfPlayerThatShotLaser;
-            }
-            else
-            {
-                ++scoreOfPlayerThatShotLaser;
-            }
-            
-            renderer.renderPlayerScore(laserShotByPlayerID, scoreOfPlayerThatShotLaser);
+            handleScoreUpdate(playerID, laserID);
             renderer.renderPlayerShot(playerID);
             playerHit = true;
         }
     }
 
     return playerHit;
+}
+
+void GameEventHandler::handleScoreUpdate(ID playerWhoWasShotID, ID laserID)
+{
+    auto playerWhoShotTheLaserID = laserShotBy.at(laserID);
+    auto& scoreOfPlayerThatShotLaser = playersScores.at(playerWhoShotTheLaserID);
+    
+    if(playerWhoShotTheLaserID == playerWhoWasShotID)
+    {
+        --scoreOfPlayerThatShotLaser;
+    }
+    else
+    {
+        ++scoreOfPlayerThatShotLaser;
+    }
+    
+    renderer.renderPlayerScore(playerWhoShotTheLaserID, scoreOfPlayerThatShotLaser);
 }
 
 Direction GameEventHandler::reflectLaser(Direction prevDirection, MirrorType mirrorType)

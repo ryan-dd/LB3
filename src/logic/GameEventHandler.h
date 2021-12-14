@@ -34,6 +34,8 @@ private:
     void updateLasers();
     Direction reflectLaser(Direction prevDirection, MirrorType mirrorType);
     bool updatePlayersAtLaserPosition(ID laserID);
+    void updateLasersAtPlayerPosition(ID playerID);
+    void handleScoreUpdate(ID playerWhoWasShotID, ID laserID);
 public:
     GameEventHandler(GameRenderer& renderer, 
                      const GameStartParameters parameters);

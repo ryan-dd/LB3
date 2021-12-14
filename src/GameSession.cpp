@@ -1,6 +1,6 @@
 #include "GameSession.h"
 #include "GameStartParameters.h"
-#include "Color.h"
+#include "GameColor.h"
 
 #include <thread>
 #include <string>
@@ -188,13 +188,13 @@ void GameSession::initializeCurses(int xMax, int yMax)
     }
 
     start_color();
-	init_pair(toInt(LB3::Color::ArenaDefault), COLOR_WHITE, COLOR_BLACK); // Default color for game
-	init_pair(toInt(LB3::Color::PlayerDefault), COLOR_YELLOW, COLOR_BLACK); // Default player color 
-    init_pair(toInt(LB3::Color::PlayerShot), COLOR_RED, COLOR_BLACK); // Player hit by laser color
-    init_pair(toInt(LB3::Color::PlayerTeleported), COLOR_MAGENTA, COLOR_BLACK); // Player teleport color
-    init_pair(toInt(LB3::Color::DisplayDefault), COLOR_GREEN, COLOR_BLACK); // Score and timer color
+	init_pair(toInt(LB3::GameColor::ArenaDefault), COLOR_WHITE, COLOR_BLACK); // Default color for game
+	init_pair(toInt(LB3::GameColor::PlayerDefault), COLOR_YELLOW, COLOR_BLACK); // Default player color 
+    init_pair(toInt(LB3::GameColor::PlayerShot), COLOR_RED, COLOR_BLACK); // Player hit by laser color
+    init_pair(toInt(LB3::GameColor::PlayerTeleported), COLOR_MAGENTA, COLOR_BLACK); // Player teleport color
+    init_pair(toInt(LB3::GameColor::DisplayDefault), COLOR_GREEN, COLOR_BLACK); // Score and timer color
 	
-    attron(COLOR_PAIR(toInt(LB3::Color::ArenaDefault)));
+    attron(COLOR_PAIR(toInt(LB3::GameColor::ArenaDefault)));
 	
     refresh();
     box(window, 0, 0);

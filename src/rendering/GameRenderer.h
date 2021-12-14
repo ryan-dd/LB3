@@ -8,18 +8,17 @@
 #include "Vector2d.h"
 #include "Arena.h"
 #include "Direction.h"
-#include "Color.h"
+#include "GameColor.h"
 
 class GameRenderer
 {
 private:
     WINDOW* window;
-    const std::string clearString = "   ";
 
     // Player data
     std::unordered_map<ID, Vector2d> playerPositions;
     std::unordered_map<ID, char> playerSymbols;
-    std::unordered_map<ID, LB3::Color> playerColor;
+    std::unordered_map<ID, LB3::GameColor> playerColor;
     std::unordered_map<ID, Vector2d> playerScorePositions;
 
     // Laser Data
@@ -39,6 +38,7 @@ private:
     void renderPlayer(ID playerID);
     void renderChar(Vector2d location, char symbol);
     void renderChar(int x, int y, char symbol);
+    void renderHorizontalBorderAt(int x, int y, int length);
 
 public:
     GameRenderer(WINDOW* window, int numberPlayers);

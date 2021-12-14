@@ -1,8 +1,8 @@
-#include "Color.h"
+#include "GameColor.h"
 
 namespace LB3
 {
-    int toInt(Color color)
+    int toInt(GameColor color)
     {
         return static_cast<int>(color);
     }

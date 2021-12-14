@@ -6,7 +6,7 @@ add_library(LB3
     data/game/Direction.cpp 
     data/game/Arena.cpp 
     data/ui/PlayerInputInfo.cpp 
-    data/ui/Color.cpp 
+    data/ui/GameColor.cpp 
     util/Logger.cpp 
     util/RandomIntGenerator.cpp 
     util/ArenaCoordinateGenerator.cpp 
