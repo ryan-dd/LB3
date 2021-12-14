@@ -24,20 +24,20 @@ private:
 
     const std::chrono::seconds gameDuration;
     const std::chrono::milliseconds tickLength = std::chrono::milliseconds(50);
-    std::vector<std::string> toPrint;
+    void updatePlayer(char input, int id, PlayerInputInfo playerInfo);
 
+    std::vector<std::string> toPrint;
     void initializeCurses(int xMax, int yMax);
     void cleanUpCurses();
     void displayResults();
-    void updatePlayer(char input, int id, PlayerInputInfo playerInfo);
+    void queueToPrintToSession(const std::string& input);
+    void printQueuedMessages();
 public:
     GameSession(const GameStartParameters parameters);
     ~GameSession();
-    void printToSession(const std::string& input);
     void printInstructions();
-    void queueToPrintToSession(const std::string& input);
-    void printQueuedMessages();
-
+    void printOpeningSequence();
+    void printToSession(const std::string& input);
     void waitForUserInput();
     void clear();
 

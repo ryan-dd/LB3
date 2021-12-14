@@ -141,14 +141,22 @@ void GameSession::printToSession(const std::string& input)
 
 void GameSession::printInstructions()
 {
-   queueToPrintToSession("P1 - Arrow keys to move, space bar to shoot");
-   queueToPrintToSession("");
-   queueToPrintToSession("P2 - w a s d to move, v to shoot.");
-   queueToPrintToSession("");
-   queueToPrintToSession("\'/\' and \'\\\' are mirrors, and \'*\' are teleporters");
-   queueToPrintToSession("");
-   queueToPrintToSession("Press \"q\" to quit. Hope you enjoy! ");
-   printQueuedMessages();
+    std::string plural = "";
+    if(inputInfos.size() > 2)
+    {
+        plural = "s";
+    }
+
+    printToSession("Shoot your opponent" + plural + " to increase your score!");
+    waitForUserInput();
+    queueToPrintToSession("P1 - Arrow keys to move, space bar to shoot");
+    queueToPrintToSession("");
+    queueToPrintToSession("P2 - w a s d to move, v to shoot.");
+    queueToPrintToSession("");
+    queueToPrintToSession("\'/\' and \'\\\' are mirrors, and \'*\' are teleporters");
+    queueToPrintToSession("");
+    queueToPrintToSession("Press \"q\" to quit. Hope you enjoy! ");
+    printQueuedMessages();
 }
 
 void GameSession::queueToPrintToSession(const std::string& input)
@@ -218,4 +226,49 @@ void GameSession::cleanUpCurses()
 {
     endwin();
 }
+
+void GameSession::printOpeningSequence()
+{
+    toPrint = {
+R"(    __    ___   _____ __________ )",
+R"(   / /   /   | / ___// ____/ __ \)",
+R"(  / /   / /| | \__ \/ __/ / /_/ /)",
+R"( / /___/ ___ |___/ / /___/ _, _/ )",
+R"(/_____/_/  |_/____/_____/_/ |_|  )"};
+    printQueuedMessages();
+    std::this_thread::sleep_for(std::chrono::milliseconds(850));
+
+    toPrint = {
+R"(    ____  __    ___   ___________ )",
+R"(   / __ )/ /   /   | / ___/_  __/ )",
+R"(  / __  / /   / /| | \__ \ / /    )",  
+R"( / /_/ / /___/ ___ |___/ // /     )",   
+R"(/_____/_____/_/  |_/____//_/      )"};
+    printQueuedMessages();
+    std::this_thread::sleep_for(std::chrono::milliseconds(850));
+
+    toPrint = {
+R"(   _____ ____  ____  ____ )",
+R"(  |__  // __ \/ __ \/ __ \)",
+R"(   /_ </ / / / / / / / / /)",
+R"( ___/ / /_/ / /_/ / /_/ / )",
+R"(/____/\____/\____/\____/  )"};
+    printQueuedMessages();
+    std::this_thread::sleep_for(std::chrono::milliseconds(850));
+    toPrint = {
+R"( __   __   __   __   __  )",
+R"(|  | |  | |  | |  | |  | )",
+R"(|__| |__| |__| |__| |__| )",
+R"( __   __   __   __   __  )",
+R"(|__| |__| |__| |__| |__| )"};
+    printQueuedMessages();
+    std::this_thread::sleep_for(std::chrono::milliseconds(850));
+
+    toPrint = {
+        "Welcome to Laser Blast 3000!",
+        "(Press any key to continue)",
+    };
+    printQueuedMessages();
+}
+
 }
