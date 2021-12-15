@@ -1,3 +1,5 @@
+enable_testing()
+
 include(FetchContent)
 FetchContent_Declare(
     googletest
@@ -7,9 +9,13 @@ FetchContent_Declare(
     
 FetchContent_MakeAvailable(googletest)
     
-add_executable(integration_tests 
+add_executable(unit_tests 
     VectorTest.cpp
 )
-target_link_libraries(integration_tests PUBLIC gtest_main LB3)
+target_link_libraries(unit_tests 
+    gtest_main 
+    LB3
+)
 
-add_test(integration_tests tests) 
+include(GoogleTest)
+gtest_discover_tests(unit_tests)

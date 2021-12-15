@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.11)
+cmake_minimum_required (VERSION 3.18) # Minimum tested version
 set(CMAKE_CXX_STANDARD 17)
 
 project(LB3)
@@ -8,8 +8,4 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 add_subdirectory(src)
-
-if(BUILD_TESTS)
-    enable_testing()
-    add_subdirectory(test)
-endif()
+add_subdirectory(test)

@@ -1,23 +1,16 @@
 # LB3 - Laser Blast 3000
 
-A two-player laser battle game played in the terminal.
-## Requires
+A two-player laser battle game made in C++ and played in the terminal.
+_____________________________
 
-Curses
+This game was the result of a personal challenge to see if I could make a fully playable game in a week. I used the curses library for terminal display.
 
-C++17
-
-Terminal that supports colors
 ## Build
 
-`mkdir build`
+`cmake -S . -B build`
 
-`cd build `
-
-`cmake ..`
-
-`make -j install`
+`cmake --build build`
 
 ## Run
 
-`./bin/main`
+`./build/src/main`
